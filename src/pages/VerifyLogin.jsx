@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import loackIcon from '../assets/lockIcon.svg'
+import lockIcon from '../assets/lockIcon.png'
 
 export default function VerifyLogin() {
   const [verificationCode, setVerificationCode] = useState("");
@@ -57,7 +57,7 @@ export default function VerifyLogin() {
       {/* Modal */}
       <div className="relative z-10 bg-[#ffffff] p-8 rounded-md shadow-lg w-full max-w-md">
         <div className="flex justify-center mb-5">
-        <img src={loackIcon} alt="lock" className=" justify-center bg-[#C1FFF0] border rounded-lg px-4 py-3" />
+        <img src={lockIcon} alt="lock" className=" justify-center bg-[#C1FFF0] border rounded-lg px-4 py-3" />
         </div>
         
         <h1 className="text-center text-2xl font-bold text-[#135D54] mb-4">

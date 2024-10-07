@@ -1,5 +1,5 @@
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { useState } from "react";
 import {
   Dialog,
@@ -29,51 +29,64 @@ import pana from "../assets/pana.png";
 import help from "../assets/help.png";
 import recoverIcon from "../assets/recoverIcon.png";
 import signIcon from "../assets/signIcon.png";
+import loanIcon from "../assets/loanIcon.png";
+import home from "../assets/home.png";
+import underwriterIcon from "../assets/underwriterIcon.png";
+import collectIcon from "../assets/collectIcon.png";
+import staffIcon from "../assets/staffIcon.png";
+import crmIcon from "../assets/crmIcon.png";
+import adminIcon from "../assets/adminIcon.png";
+import bridgeIcon from "../assets/bridgeIcon.png";
+import centricIcon from "../assets/centricIcon.png";
+import debtIcon from "../assets/debtIcon.png";
+import reportIcon from "../assets/reportIcon.png";
+import setupIcon from "../assets/setupIcon.png";
+
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+  { name: "Dashboard", href: "#", icon: home, current: true },
   {
     name: "Loan Application",
     href: "/loan-app",
-    icon: UsersIcon,
+    icon: loanIcon,
     current: false,
   },
   {
     name: "Loan Underwriting",
     href: "/underwriter",
-    icon: FolderIcon,
+    icon: underwriterIcon,
     current: false,
   },
   {
     name: "Collection",
     href: "/collection",
-    icon: CalendarIcon,
+    icon: collectIcon,
     current: false,
   },
   {
     name: "Staff",
     href: "/staff",
-    icon: DocumentDuplicateIcon,
+    icon: staffIcon,
     current: false,
   },
-  { name: "CRM", href: "crm", icon: ChartPieIcon, current: false },
-  { name: "Administration", href: "admin", icon: UsersIcon, current: false },
-  { name: "Debt Management", href: "debt", icon: FolderIcon, current: false },
+  { name: "CRM", href: "crm", icon: crmIcon, current: false },
+  { name: "Administration", href: "admin", icon: adminIcon, current: false },
+  { name: "Debt Management", href: "debt", icon: debtIcon, current: false },
   {
     name: "Bridge Loan",
     href: "bridge-loan",
-    icon: CalendarIcon,
+    icon: bridgeIcon,
     current: false,
   },
   {
     name: "Customer Centric",
     href: "customer",
-    icon: DocumentDuplicateIcon,
+    icon: centricIcon,
     current: false,
   },
-  { name: "General Setup", href: "setup", icon: ChartPieIcon, current: false },
-  { name: "Report", href: "report", icon: ChartPieIcon, current: false },
+  { name: "General Setup", href: "setup", icon: setupIcon, current: false },
+  { name: "Report", href: "report", icon: reportIcon, current: false },
 ];
 
 const userNavigation = [
@@ -90,7 +103,7 @@ const currentTime = new Date().toLocaleString();
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [date, setDate] = useState(new Date());  // State for interactive calendar
+  const [date, setDate] = useState(new Date()); // State for interactive calendar
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
@@ -150,14 +163,10 @@ export default function Dashboard() {
                                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                               )}
                             >
-                              <item.icon
-                                aria-hidden="true"
-                                className={classNames(
-                                  item.current
-                                    ? "text-[#072320]"
-                                    : "text-[#072320] group-hover:text-[#072320]",
-                                  "h-6 w-6 shrink-0"
-                                )}
+                              <img
+                                src={item.icon}
+                                alt={item.name} // Optional: For accessibility
+                                className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
                               />
                               {item.name}
                             </Link>
@@ -198,26 +207,22 @@ export default function Dashboard() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.href}
                           className={classNames(
                             item.current
                               ? "bg-[#EAFFFA] text-[#072320]"
-                              : "text-[#072320] hover:bg-[#EAFFFA] hover:text-[#072320]",
+                              : "text-[#072320] hover:bg-[#EAFFFA] hover:text-[#135D54]",
                             "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                           )}
                         >
-                          <item.icon
-                            aria-hidden="true"
-                            className={classNames(
-                              item.current
-                                ? "text-[#072320]"
-                                : "text-[#072320] group-hover:text-[#072320]",
-                              "h-6 w-6 shrink-0"
-                            )}
+                          <img
+                            src={item.icon}
+                            alt={item.name} // Optional: For accessibility
+                            className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -240,7 +245,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="lg:pl-72 ">
+        <div className="lg:pl-72 h-auto">
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-[#135D54] px-4 shadow-sm sm:px-6 lg:px-8">
             <button
               type="button"
@@ -322,80 +327,89 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-3 gap-5 bg-[#F3F4F6]">
-  {/* Welcome Back Card */}
-  <div className="flex gap-12 col-span-3 sm:col-span-2 text-white p-5 mt-10 ml-7 rounded-md bg-[#00C795]">
-    <div>
-      <h1 className="mr-5 font-bold text-lg">Welcome back Kenny!</h1>
-      <p>Your last login was {currentTime} </p>
-    </div>
-    <div className="ml-10">
-      <img src={pana} alt="user" />
-    </div>
-  </div>
+            {/* Welcome Back Card */}
+            <div className="flex gap-12 col-span-3 sm:col-span-2 text-white p-5 mt-10 ml-7 rounded-md bg-[#00C795]">
+              <div>
+                <h1 className="mr-5 font-bold text-lg">Welcome back Kenny!</h1>
+                <p>Your last login was {currentTime} </p>
+              </div>
+              <div className="ml-10">
+                <img src={pana} alt="user" />
+              </div>
+            </div>
 
-  {/* Profile Card */}
-  <div className="hidden sm:flex flex-col items-center justify-center mt-10 z-10 mr-10 text-center bg-[#ffffff] p-5 rounded-md shadow-lg">
-    <img className="rounded-full mb-4" src={profile} alt="user" />
-    <h2 className="text-lg font-semibold text-[#343434]">
-      Adekunle Adebona
-    </h2>
-    <p className="text-sm text-[#343434]">UI/UX Designer</p>
-  </div>
-</div>
-<div className="grid grid-cols-3 gap-5">
-  {/* Application Card */}
-<div className="col-span-3 sm:col-span-2 text-[#384642] p-5 mt-5 ml-7 rounded-md bg-[#ffffff] h-full shadow-lg">
-  <div className="flex justify-between">
-    <h1 className="mr-5 font-bold text-lg">Application</h1>
-    <Link to="#" className="text-right text-[#135D54]">See more</Link>
-  </div>
+            {/* Profile Card */}
+            <div className="hidden sm:flex flex-col items-center justify-center mt-10 z-10 mr-10 text-center bg-[#ffffff] p-5 rounded-md shadow-lg">
+              <img className="rounded-full mb-4" src={profile} alt="user" />
+              <h2 className="text-lg font-semibold text-[#343434]">
+                Adekunle Adebona
+              </h2>
+              <p className="text-sm text-[#343434]">UI/UX Designer</p>
+            </div>
+          </div>
+          <div className="grid mb-auto grid-cols-3 gap-5 bg-[#F3F4F6]">
+            {/* Application Card */}
+            <div className="col-span-3 sm:col-span-2 text-[#384642] p-5 mt-5 ml-7 rounded-md bg-[#ffffff] h-auto mb-5 shadow-lg">
+              <div className="flex justify-between">
+                <h1 className="mr-5 font-bold text-lg">Application</h1>
+                <Link to="#" className="text-right text-[#135D54]">
+                  See more
+                </Link>
+              </div>
 
-  {/* Inner Cards */}
-  <div className="flex flex-col sm:flex-row gap-5 mt-5">
-    {/* Recovery Card */}
-    <div className="w-full sm:w-1/3 p-4 bg-[#DDFFF7] rounded-md">
-      <img src={recoverIcon} alt="Recovery Icon" className="" />
-      <h1 className="font-semibold text-lg mt-2">Recovery</h1>
-      <div className="flex justify-between items-center mt-4">
-        <p>15/10/2024</p>
-        <button className="bg-[#00C795] text-white px-4 py-1 rounded">Active</button>
-      </div>
-    </div>
+              {/* Inner Cards */}
+              <div className="flex flex-col sm:flex-row gap-5 mt-5">
+                {/* Recovery Card */}
+                <div className="w-full sm:w-1/3 p-4 bg-[#DDFFF7] rounded-md">
+                  <img src={recoverIcon} alt="Recovery Icon" className="" />
+                  <h1 className="font-semibold text-lg mt-2">Recovery</h1>
+                  <div className="flex justify-between items-center mt-4">
+                    <p>15/10/2024</p>
+                    <button className="bg-[#00C795] text-white px-4 py-1 rounded">
+                      Active
+                    </button>
+                  </div>
+                </div>
 
-    {/* Single Sign-on Card */}
-    <div className="w-full sm:w-1/3 p-4 bg-[#DDFFF7] rounded-md">
-      <img src={signIcon} alt="Sign-on Icon" className="" />
-      <h1 className="font-semibold text-lg mt-2">Single Sign-on</h1>
-      <div className="flex justify-between items-center mt-4">
-        <p>15/10/2024</p>
-        <button className="bg-[#00C795] text-white px-4 py-1 rounded">Active</button>
-      </div>
-    </div>
-  </div>
-</div>
+                {/* Single Sign-on Card */}
+                <div className="w-full sm:w-1/3 p-4 bg-[#DDFFF7] rounded-md">
+                  <img src={signIcon} alt="Sign-on Icon" className="" />
+                  <h1 className="font-semibold text-lg mt-2">Single Sign-on</h1>
+                  <div className="flex justify-between items-center mt-4">
+                    <p>15/10/2024</p>
+                    <button className="bg-[#00C795] text-white px-4 py-1 rounded">
+                      Active
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            {/* Calendar and Help Widgets */}
+            <div className="hidden sm:flex col-span-1 row-span-1 flex-col space-y-5 mb-5 mr-10">
+              {/* Interactive Calendar Widget */}
+              <div className="bg-white mt-5 p-6 rounded-md shadow-lg">
+                <Calendar
+                  onChange={handleDateChange}
+                  value={date}
+                  className=""
+                />
+              </div>
 
-  {/* Calendar and Help Widgets */}
-  <div className="hidden sm:flex col-span-1 row-span-2 flex-col space-y-5">
-    {/* Interactive Calendar Widget */}
-    <div className="bg-white p-6 rounded-md shadow-lg">
-      <Calendar
-        onChange={handleDateChange}
-        value={date}
-        className="react-calendar"
-      />
-    </div>
+              {/* Help Widget */}
+              <div className="bg-white p-5 rounded-md shadow-lg flex flex-col items-center text-center">
+                <img className="rounded-full mb-4" src={help} alt="Help" />
+                <h2 className="text-lg font-semibold text-[#343434]">
+                  Need help?
+                </h2>
+                <p className="text-sm text-[#343434]">
+                  Having trouble with the system? Reach out for assistance.
+                </p>
+              </div>
+            </div>
+          </div>
 
-    {/* Help Widget */}
-    <div className="bg-white p-5 rounded-md shadow-lg flex flex-col items-center text-center">
-      <img className="rounded-full mb-4" src={help} alt="Help" />
-      <h2 className="text-lg font-semibold text-[#343434]">Need help?</h2>
-      <p className="text-sm text-[#343434]">Having trouble with the system? Reach out for assistance.</p>
-    </div>
-  </div>
-</div>
-
-{/* Help Widget Ends */}
+          {/* Help Widget Ends */}
         </div>
       </div>
     </>
