@@ -1,6 +1,3 @@
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import "./Calendar.css"
 import { useState } from "react";
 import {
   Dialog,
@@ -14,16 +11,11 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
-  Cog6ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, ChevronUpIcon, BellIcon } from "@heroicons/react/24/solid";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.png";
-import pana from "../assets/pana.png";
-import help from "../assets/help.png";
-import recoverIcon from "../assets/recoverIcon.png";
-import signIcon from "../assets/signIcon.png";
 import loanIcon from "../assets/loanIcon.png";
 import home from "../assets/home.png";
 import underwriterIcon from "../assets/underwriterIcon.png";
@@ -36,6 +28,7 @@ import centricIcon from "../assets/centricIcon.png";
 import debtIcon from "../assets/debtIcon.png";
 import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
+import { ArrowRightIcon } from '@heroicons/react/24/solid';
 
 import { Link } from "react-router-dom";
 
@@ -43,7 +36,7 @@ const navigation = [
   { name: "Dashboard", href: "#", icon: home, current: true },
   { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
     children: [
-      { name: "Customer", href: "/loan-app/customer" },
+      { name: "Customer", href: "/loan-app/customer", current: true },
       { name: "Declined", href: "/loan-app/declined" },
       { name: "Adjust", href: "/loan-app/adjust" },
       { name: "Loan Status", href: "/loan-app/status" },
@@ -117,22 +110,38 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const currentTime = new Date().toLocaleString();
-
-export default function Dashboard() {
+export default function LoanApplication() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [date, setDate] = useState(new Date()); // State for interactive calendar
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
   };
 
+// Sample data for the table
+const [data, setData] = useState([
+  { id: 1, ref: "Ref123456", amount: "₦200,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 2, ref: "Ref123456", amount: "₦210,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 3, ref: "Ref123456", amount: "₦580,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 4, ref: "Ref123456", amount: "₦50,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 5, ref: "Ref123456", amount: "₦20,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 6, ref: "Ref123456", amount: "₦10,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 7, ref: "Ref123456", amount: "₦230,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 8, ref: "Ref123456", amount: "₦670,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 9, ref: "Ref123456", amount: "₦120,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+  { id: 10, ref: "Ref123456", amount: "₦3,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
+]);
 
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    console.log("Selected date:", newDate);
-  };
+const [search, setSearch] = useState("");
+
+const handleSearchChange = (e) => {
+  setSearch(e.target.value);
+};
+
+const handleFilter = () => {
+  // Add filter logic if needed
+  console.log("Filter clicked");
+};
 
   return (
     <>
@@ -312,11 +321,7 @@ export default function Dashboard() {
 
             {/* Right-aligned section */}
             <div className="ml-auto flex items-center gap-x-4 lg:gap-x-6">
-              {/* Separator */}
-              <div
-                aria-hidden="true"
-                className="hidden lg:block lg:h-6 lg:w-px font-semibold lg:bg-[#ffffff]"
-              />
+              
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
@@ -379,89 +384,67 @@ export default function Dashboard() {
               </Menu>
             </div>
           </div>
+          <div className="flex gap-2 items-center mt-10 ml-5">
+  <p className="text-[#4A5D58]">Loan Application</p>
+  <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
+  <Link to='#' className="text-[#4A5D58] hover:underline">Customer</Link>
+</div>
+          <div className="p-6 bg-white">
+      {/* Search and Filter Section */}
+      <div className="flex justify-between mb-10">
+        <div className="w-1/3">
+          <input
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={handleSearchChange}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
+          />
+        </div>
+        <button
+          onClick={handleFilter}
+          className="bg-[#00C795] hover:bg-[#135D54] text-white px-4 py-2 rounded-md"
+        >
+          Filter
+        </button>
+      </div>
 
-          <div className="grid grid-cols-3 gap-5 bg-[#F3F4F6]">
-            {/* Welcome Back Card */}
-            <div className="flex gap-12 col-span-3 sm:col-span-2 text-white p-5 mt-10 ml-7 rounded-md bg-[#00C795]">
-              <div>
-                <h1 className="mr-5 font-bold text-lg">Welcome back Kenny!</h1>
-                <p>Your last login was {currentTime} </p>
-              </div>
-              <div className="ml-10">
-                <img src={pana} alt="user" />
-              </div>
-            </div>
-
-            {/* Profile Card */}
-            <div className="hidden sm:flex flex-col items-center justify-center mt-10 z-10 mr-10 text-center bg-[#ffffff] p-5 rounded-md shadow-lg">
-              <img className="rounded-full mb-4" src={profile} alt="user" />
-              <h2 className="text-lg font-semibold text-[#343434]">
-                Adekunle Adebona
-              </h2>
-              <p className="text-sm text-[#343434]">UI/UX Designer</p>
-            </div>
-          </div>
-          <div className="grid mb-auto grid-cols-3 gap-5 bg-[#F3F4F6]">
-            {/* Application Card */}
-            <div className="col-span-3 sm:col-span-2 text-[#384642] p-5 mt-5 ml-7 rounded-md bg-[#ffffff] h-auto mb-5 shadow-lg">
-              <div className="flex justify-between">
-                <h1 className="mr-5 font-bold text-lg text-[#384642]">Application</h1>
-                <Link to="#" className="text-right text-[#00C796] font-semibold">
-                  See more
-                </Link>
-              </div>
-
-              {/* Inner Cards */}
-              <div className="flex flex-col sm:flex-row gap-5 mt-5">
-                {/* Recovery Card */}
-                <div className="w-full md:w-1/2 sm:w-1/2 p-4 bg-[#DDFFF7] rounded-md">
-                  <img src={recoverIcon} alt="Recovery Icon" className="" />
-                  <h1 className="font-semibold text-lg mt-2">Recovery</h1>
-                  <div className="flex justify-between items-center mt-4">
-                    <p>15/10/2024</p>
-                    <button className="bg-[#135D54] text-white px-4 py-1 rounded">
-                      Active
-                    </button>
-                  </div>
-                </div>
-
-                {/* Single Sign-on Card */}
-                <div className="w-full sm:w-1/2 p-4 bg-[#DDFFF7] md:w-1/2 rounded-md">
-                  <img src={signIcon} alt="Sign-on Icon" className="" />
-                  <h1 className="font-semibold text-lg mt-2">Single Sign-on</h1>
-                  <div className="flex justify-between items-center mt-4">
-                    <p>15/10/2024</p>
-                    <button className="bg-[#135D54] text-white px-4 py-1 rounded">
-                      Active
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Calendar and Help Widgets */}
-            <div className="hidden sm:flex md:flex flex-col space-y-5 mb-5 mr-10">
-              {/* Interactive Calendar Widget */}
-              <div className="bg-[#ffffff] mt-5 rounded-md shadow-lg">
-                <Calendar
-                  onChange={handleDateChange}
-                  value={date}
-                  className="react-calendar custom-calendar"
-                />
-              </div>
-
-              {/* Help Widget */}
-              <div className="bg-white p-5 rounded-md shadow-lg flex flex-col items-center text-center">
-                <img className="rounded-full mb-4" src={help} alt="Help" />
-                <h2 className="text-lg font-semibold text-[#343434]">
-                  Need help?
-                </h2>
-                <p className="text-sm text-[#343434]">
-                  Having trouble with the system? Reach out for assistance.
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Table */}
+      <div className="overflow-x-auto rounded-md shadow-lg">
+        <table className="min-w-full table-auto text-xs">
+          <thead className="bg-[#Ffffff]">
+            <tr>
+              <th className="px-4 py-2 border text-left">S/N</th>
+              <th className="px-4 py-2 border text-left">Customer Ref.</th>
+              <th className="px-4 py-2 border text-left">Loan Amount</th>
+              <th className="px-4 py-2 border text-left">Email Address</th>
+              <th className="px-4 py-2 border text-left">First Name</th>
+              <th className="px-4 py-2 border text-left">Middle Name</th>
+              <th className="px-4 py-2 border text-left">Last Name</th>
+              <th className="px-4 py-2 border text-left">Application Date</th>
+              <th className="px-4 py-2 border text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, index) => (
+              <tr key={row.id}>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{index + 1}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.ref}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.amount}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.email}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.firstName}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.middleName}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.lastName}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.date}</td>
+                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                  <Link to="#" className="text-[#007BEC] hover:underline">View</Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
           {/* Help Widget Ends */}
         </div>

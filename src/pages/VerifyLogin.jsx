@@ -84,7 +84,7 @@ export default function VerifyLogin() {
               }`}
             />
             {/* Timer or "Code Expired" (aligned to the right of the placeholder) */}
-            <span className="ml-4 text-[#00C795] text-sm transition-opacity duration-500">
+            <span className="ml-4 flex text-justify text-[#00C795] text-sm transition-opacity duration-500">
               {codeExpired ? "Code Expired" : `${timer}:00`}
             </span>
           </div>

@@ -1,0 +1,35 @@
+.custom-calendar .react-calendar {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    width: 100%; /* Ensure the calendar takes full width */
+}
+
+/* Add hover background color for calendar days */
+.custom-calendar .react-calendar__tile:hover {
+    background-color: #DDFFF7 !important;
+    border-radius: 50% !important;
+}
+
+/* Custom styles for the selected day */
+.custom-calendar .react-calendar__tile--active {
+    background-color: #00C796 !important;
+    color: white !important;
+    border-radius: 50% !important;
+}
+
+/* Custom styles for the calendar title */
+.custom-calendar .react-calendar__navigation__label__labelText {
+    color: #00C796 !important;
+}
+
+/* Hide the year navigation arrows */
+.custom-calendar .react-calendar__navigation__prev2-button,
+.custom-calendar .react-calendar__navigation__next2-button {
+    display: none !important;
+}
+
+/* Adjust the padding of the calendar to give proper spacing */
+.custom-calendar {
+    padding: 10px;
+}

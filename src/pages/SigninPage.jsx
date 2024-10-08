@@ -4,35 +4,62 @@ import { useState } from "react"; // Import useState hook
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
 
 export default function Signin() {
+  const [username, setUsername] = useState(""); // to track input value
+  const [usernameError, setUsernameError] = useState(""); // to track username validation error
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [password, setPassword] = useState(""); // State to track password input
-  const [errorMessage, setErrorMessage] = useState(""); // State to track error message
+  const [passwordError, setPasswordError] = useState(""); // State to track password error
+  const [formValid, setFormValid] = useState(false); // State to track form validity
   const currentDate = new Date().getFullYear();
 
+  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    if (e.target.value.length >= 8) {
-      setErrorMessage(""); // Clear error if password is valid
+  // Validate username input
+  const validateUsername = (value) => {
+    setUsername(value);
+    if (value.length < 5) {
+      setUsernameError("Username must be at least 5 characters long.");
     } else {
-      setErrorMessage("Password must be at least 8 characters."); // Set error if password is invalid
+      setUsernameError(""); // Clear error if username is valid
+    }
+    checkFormValidity();
+  };
+
+  // Handle password change and validation
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (value.length < 8) {
+      setPasswordError("Password must be at least 8 characters.");
+    } else {
+      setPasswordError(""); // Clear error if password is valid
+    }
+    checkFormValidity();
+  };
+
+  // Check if the form is valid
+  const checkFormValidity = () => {
+    if (username.length >= 5 && password.length >= 8) {
+      setFormValid(true); // Form is valid
+    } else {
+      setFormValid(false); // Form is invalid
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Perform validation on form submission
-    if (password.length < 8) {
-      setErrorMessage("Password must be at least 8 characters.");
-    } else {
-      console.log("Form submitted");
-      // Example redirect to login page
-      // navigate("/login"); // Use the appropriate navigation logic
+    if (!formValid) {
+      console.log("Form is not valid");
+      return;
     }
+
+    console.log("Form submitted");
+    // Example redirect to login page
+    // navigate("/dashboard"); // Use the appropriate navigation logic
   };
 
   return (
@@ -60,20 +87,27 @@ export default function Signin() {
             </div>
             <div className="mt-10">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Username Input */}
                 <div>
                   <div className="mt-2">
                     <input
                       id="uname"
                       name="uname"
                       type="text"
+                      value={username}
                       required
                       autoComplete="uname"
                       placeholder="Username"
+                      onChange={(e) => validateUsername(e.target.value)} // Validate on change
                       className="block w-full rounded-md border-0 p-2 shadow-sm ring-1 ring-inset ring-[#BFCCC9] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
                     />
                   </div>
+                  {usernameError && (
+                    <p className="text-red-500 text-sm mt-2">{usernameError}</p>
+                  )}
                 </div>
 
+                {/* Password Input */}
                 <div className="relative">
                   <div className="mt-2">
                     <input
@@ -92,21 +126,25 @@ export default function Signin() {
                       onClick={togglePasswordVisibility}
                     >
                       {showPassword ? (
-                        <FaEyeSlash className="text-[#000000] h-5 w-5" /> // Properly sized icon
+                        <FaEyeSlash className="text-[#000000] h-5 w-5" />
                       ) : (
-                        <FaEye className="text-[#000000] h-5 w-5" /> // Properly sized icon
+                        <FaEye className="text-[#000000] h-5 w-5" />
                       )}
                     </span>
                   </div>
-                  {errorMessage && (
-                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                  {passwordError && (
+                    <p className="text-red-500 text-sm mt-2">{passwordError}</p>
                   )}
                 </div>
 
+                {/* Submit Button */}
                 <div>
-                  <Link to='/dashboard'
+                  <Link to="/dashboard"
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-[#00C795] hover:bg-[#007970] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#007970]"
+                    className={`flex w-full justify-center rounded-md bg-[#00C795] hover:bg-[#007970] hover:scale-105 transition-all duration-300 transform px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#007970] ${
+                      formValid ? "" : "opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={!formValid} // Disable button if form is invalid
                   >
                     Sign in
                   </Link>

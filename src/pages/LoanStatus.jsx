@@ -1,6 +1,3 @@
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import "./Calendar.css"
 import { useState } from "react";
 import {
   Dialog,
@@ -14,16 +11,11 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
-  Cog6ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, ChevronUpIcon, BellIcon } from "@heroicons/react/24/solid";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.png";
-import pana from "../assets/pana.png";
-import help from "../assets/help.png";
-import recoverIcon from "../assets/recoverIcon.png";
-import signIcon from "../assets/signIcon.png";
 import loanIcon from "../assets/loanIcon.png";
 import home from "../assets/home.png";
 import underwriterIcon from "../assets/underwriterIcon.png";
@@ -119,7 +111,7 @@ function classNames(...classes) {
 
 const currentTime = new Date().toLocaleString();
 
-export default function Dashboard() {
+export default function LoanStatus() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [date, setDate] = useState(new Date()); // State for interactive calendar
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
@@ -380,88 +372,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-5 bg-[#F3F4F6]">
-            {/* Welcome Back Card */}
-            <div className="flex gap-12 col-span-3 sm:col-span-2 text-white p-5 mt-10 ml-7 rounded-md bg-[#00C795]">
-              <div>
-                <h1 className="mr-5 font-bold text-lg">Welcome back Kenny!</h1>
-                <p>Your last login was {currentTime} </p>
-              </div>
-              <div className="ml-10">
-                <img src={pana} alt="user" />
-              </div>
-            </div>
-
-            {/* Profile Card */}
-            <div className="hidden sm:flex flex-col items-center justify-center mt-10 z-10 mr-10 text-center bg-[#ffffff] p-5 rounded-md shadow-lg">
-              <img className="rounded-full mb-4" src={profile} alt="user" />
-              <h2 className="text-lg font-semibold text-[#343434]">
-                Adekunle Adebona
-              </h2>
-              <p className="text-sm text-[#343434]">UI/UX Designer</p>
-            </div>
-          </div>
-          <div className="grid mb-auto grid-cols-3 gap-5 bg-[#F3F4F6]">
-            {/* Application Card */}
-            <div className="col-span-3 sm:col-span-2 text-[#384642] p-5 mt-5 ml-7 rounded-md bg-[#ffffff] h-auto mb-5 shadow-lg">
-              <div className="flex justify-between">
-                <h1 className="mr-5 font-bold text-lg text-[#384642]">Application</h1>
-                <Link to="#" className="text-right text-[#00C796] font-semibold">
-                  See more
-                </Link>
-              </div>
-
-              {/* Inner Cards */}
-              <div className="flex flex-col sm:flex-row gap-5 mt-5">
-                {/* Recovery Card */}
-                <div className="w-full md:w-1/2 sm:w-1/2 p-4 bg-[#DDFFF7] rounded-md">
-                  <img src={recoverIcon} alt="Recovery Icon" className="" />
-                  <h1 className="font-semibold text-lg mt-2">Recovery</h1>
-                  <div className="flex justify-between items-center mt-4">
-                    <p>15/10/2024</p>
-                    <button className="bg-[#135D54] text-white px-4 py-1 rounded">
-                      Active
-                    </button>
-                  </div>
-                </div>
-
-                {/* Single Sign-on Card */}
-                <div className="w-full sm:w-1/2 p-4 bg-[#DDFFF7] md:w-1/2 rounded-md">
-                  <img src={signIcon} alt="Sign-on Icon" className="" />
-                  <h1 className="font-semibold text-lg mt-2">Single Sign-on</h1>
-                  <div className="flex justify-between items-center mt-4">
-                    <p>15/10/2024</p>
-                    <button className="bg-[#135D54] text-white px-4 py-1 rounded">
-                      Active
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Calendar and Help Widgets */}
-            <div className="hidden sm:flex md:flex flex-col space-y-5 mb-5 mr-10">
-              {/* Interactive Calendar Widget */}
-              <div className="bg-[#ffffff] mt-5 rounded-md shadow-lg">
-                <Calendar
-                  onChange={handleDateChange}
-                  value={date}
-                  className="react-calendar custom-calendar"
-                />
-              </div>
-
-              {/* Help Widget */}
-              <div className="bg-white p-5 rounded-md shadow-lg flex flex-col items-center text-center">
-                <img className="rounded-full mb-4" src={help} alt="Help" />
-                <h2 className="text-lg font-semibold text-[#343434]">
-                  Need help?
-                </h2>
-                <p className="text-sm text-[#343434]">
-                  Having trouble with the system? Reach out for assistance.
-                </p>
-              </div>
-            </div>
-          </div>
+          
 
           {/* Help Widget Ends */}
         </div>
