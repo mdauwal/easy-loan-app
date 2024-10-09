@@ -15,6 +15,7 @@ import Adjust from "../src/pages/Adjust";
 import LoanRestructure from "../src/pages/LoanRestructuring";
 import LoanStatus from "../src/pages/LoanRestructuring";
 import LoanTopup from "../src/pages/LoanTopup";
+import CustomerDetails from './pages/CustomerDetails';
 
 
 
@@ -34,7 +35,8 @@ const App = () => {
         <Route path='/loan-app/adjust' element={<Adjust />} /> 
         <Route path='/loan-app/restructure' element={<LoanRestructure />} />
         <Route path='/loan-app/status' element={<LoanStatus />} /> 
-        <Route path='/loan-app/top-up' element={<LoanTopup />} />  
+        <Route path='/loan-app/top-up' element={<LoanTopup />} />
+        <Route path="/customer-details/:id" element={<CustomerDetails />} />
       </Routes>
     </Router>
   )
