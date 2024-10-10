@@ -9,11 +9,12 @@ import {
   MenuItems,
   TransitionChild,
 } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { ChevronDownIcon, ChevronUpIcon, BellIcon } from "@heroicons/react/24/solid";
+  ChevronDownIcon,
+  ChevronUpIcon,
+  BellIcon,
+} from "@heroicons/react/24/solid";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.png";
 import loanIcon from "../assets/loanIcon.png";
@@ -28,51 +29,81 @@ import centricIcon from "../assets/centricIcon.png";
 import debtIcon from "../assets/debtIcon.png";
 import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
-import { ArrowRightIcon } from '@heroicons/react/24/solid';
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { FilterModal } from "../features/FilterModal.jsx";
+import loanData from "../pages/LoanData.js";
+import Pagination from "../components/Pagination.jsx";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: home, current: true },
-  { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
+  { name: "Dashboard", href: "/dashboard", icon: home, current: true },
+  {
+    name: "Loan Application",
+    href: "#",
+    icon: loanIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Customer", href: "/loan-app/customer", current: true },
+      { name: "Customer", href: "/loan-app/customer" },
       { name: "Declined", href: "/loan-app/declined" },
       { name: "Adjust", href: "/loan-app/adjust" },
       { name: "Loan Status", href: "/loan-app/status" },
       { name: "Loan Restructuring", href: "/loan-app/restructure" },
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
-   },
-  { name: "Loan Underwriting", href: "#", icon: underwriterIcon, current: false, hasDropdown: true,
+  },
+  {
+    name: "Loan Underwriting",
+    href: "#",
+    icon: underwriterIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Review", href: "/underwriter/review" },
       { name: "Approval", href: "/underwriter/approval" },
       { name: "Disbursement", href: "/underwriter/disbursement" },
       { name: "Loan Re-assignment", href: "/underwriter/re-assignment" },
     ],
-   },
-  { name: "Collection", href: "#", icon: collectIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Collection",
+    href: "#",
+    icon: collectIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Repayment", href: "/collection/monthly" },
       { name: "Summary", href: "/collection/annual" },
       { name: "Report", href: "/collection/report" },
     ],
-   },
-  { name: "Staff", href: "#", icon: staffIcon, current: false, hasDropdown: true, 
-    children: [
-      { name: "Loan", href: "/staff/loan" },
-    ],
-   },
-  { name: "CRM", href: "#", icon: crmIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Staff",
+    href: "#",
+    icon: staffIcon,
+    current: false,
+    hasDropdown: true,
+    children: [{ name: "Loan", href: "/staff/loan" }],
+  },
+  {
+    name: "CRM",
+    href: "#",
+    icon: crmIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Add Client", href: "/crm/add-client" },
       { name: "Clients", href: "/crm/add-client" },
       { name: "Notification", href: "/crm/notification" },
       { name: "Customer Account Tier", href: "/crm/account-tier" },
     ],
-   },
-  { name: "Administration", href: "#", icon: adminIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Administration",
+    href: "#",
+    icon: adminIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Product", href: "/admin/product" },
       { name: "Underwriter", href: "/admin/underwriter" },
@@ -80,10 +111,20 @@ const navigation = [
       { name: "Loan Tenor", href: "/admin/loan-tenor" },
       { name: "Report", href: "/admin/report" },
     ],
-   },
+  },
   { name: "Debt Management", href: "debt", icon: debtIcon, current: false },
-  { name: "Bridge Loan", href: "bridge-loan", icon: bridgeIcon, current: false },
-  { name: "Customer Centric", href: "customer", icon: centricIcon, current: false },
+  {
+    name: "Bridge Loan",
+    href: "bridge-loan",
+    icon: bridgeIcon,
+    current: false,
+  },
+  {
+    name: "Customer Centric",
+    href: "customer",
+    icon: centricIcon,
+    current: false,
+  },
   { name: "General Setup", href: "setup", icon: setupIcon, current: false },
 
   // Example of dropdown with nested menu items (e.g., for "Report")
@@ -110,46 +151,42 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function LoanApplication() {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+const currentTime = new Date().toLocaleString();
+
+export default function SideNavLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [date, setDate] = useState(new Date()); // State for interactive calendar
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
   };
 
-// Sample data for the table
-const [data, setData] = useState([
-  { id: 1, ref: "Ref123456", amount: "₦200,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 2, ref: "Ref123456", amount: "₦210,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 3, ref: "Ref123456", amount: "₦580,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 4, ref: "Ref123456", amount: "₦50,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 5, ref: "Ref123456", amount: "₦20,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 6, ref: "Ref123456", amount: "₦10,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 7, ref: "Ref123456", amount: "₦230,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 8, ref: "Ref123456", amount: "₦670,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 9, ref: "Ref123456", amount: "₦120,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-  { id: 10, ref: "Ref123456", amount: "₦3,000", email: "adebona@creditwave.ng", firstName: "Adekunle", middleName: "Samuel", lastName: "Adebona", date: "01/08/2023" },
-]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-const [search, setSearch] = useState("");
+  // Calculate current items for pagination
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = loanData.slice(startIndex, startIndex + itemsPerPage);
 
-const handleSearchChange = (e) => {
-  setSearch(e.target.value);
-};
+  // Update page on pagination click
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
-const handleFilter = () => {
-  // Add filter logic if needed
-  console.log("Filter clicked");
-};
+  const [search, setSearch] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
 
   return (
     <>
       <div>
-      <Dialog
+        <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
           className="relative z-50 lg:hidden"
@@ -237,7 +274,6 @@ const handleFilter = () => {
                         ))}
                       </ul>
                     </li>
-          
                   </ul>
                 </nav>
               </div>
@@ -304,8 +340,6 @@ const handleFilter = () => {
                     ))}
                   </ul>
                 </li>
-
-
               </ul>
             </nav>
           </div>
@@ -324,7 +358,11 @@ const handleFilter = () => {
 
             {/* Right-aligned section */}
             <div className="ml-auto flex items-center gap-x-4 lg:gap-x-6">
-              
+              {/* Separator */}
+              <div
+                aria-hidden="true"
+                className="hidden lg:block lg:h-6 lg:w-px font-semibold lg:bg-[#ffffff]"
+              />
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
@@ -387,73 +425,139 @@ const handleFilter = () => {
               </Menu>
             </div>
           </div>
-          <div className="flex gap-2 items-center mt-10 ml-5">
-  <p className="text-[#4A5D58]">Loan Application</p>
-  <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
-  <Link to='#' className="text-[#4A5D58] hover:underline">Customer</Link>
-</div>
-          <div className="p-6 bg-white">
-      {/* Search and Filter Section */}
-      <div className="flex justify-between mb-10">
-        <div className="w-1/3">
-          <input
-            type="text"
-            placeholder="Search"
-            value={search}
-            onChange={handleSearchChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
-          />
-        </div>
-        <button
-          onClick={openModal}
-          className="bg-[#00C795] hover:bg-[#135D54] text-white px-4 py-2 rounded-md"
-        >
-          Filter
-        </button>
-        <FilterModal isOpen={isModalOpen} closeModal={closeModal} />
-      </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto rounded-md shadow-lg">
-        <table className="min-w-full table-auto text-xs">
-          <thead className="bg-[#Ffffff] text-[#4A5D58]">
-            <tr>
-              <th className="px-4 py-2 border text-left">S/N</th>
-              <th className="px-4 py-2 border text-left">Customer Ref.</th>
-              <th className="px-4 py-2 border text-left">Loan Amount</th>
-              <th className="px-4 py-2 border text-left">Email Address</th>
-              <th className="px-4 py-2 border text-left">First Name</th>
-              <th className="px-4 py-2 border text-left">Middle Name</th>
-              <th className="px-4 py-2 border text-left">Last Name</th>
-              <th className="px-4 py-2 border text-left">Application Date</th>
-              <th className="px-4 py-2 border text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, index) => (
-              <tr key={row.id}>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{index + 1}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.ref}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.amount}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.email}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.firstName}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.middleName}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.lastName}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">{row.date}</td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  
-                  <td>
-          <Link to={`/customer-details/${row.id}`}>
-            <button className="text-[#007BEC] hover:underline">View</button>
-          </Link>
-        </td>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          <div className="flex-grow p-4">
+            {/* Sidebar and Top Bar Code */}
+            <div className="w-full h-auto">
+              <div className="flex gap-2 items-center mt-10 ml-5">
+                <p className="text-[#4A5D58]">Loan Application</p>
+                <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
+                <Link to="#" className="text-[#4A5D58] hover:underline">
+                  Customer
+                </Link>
+              </div>
+
+              <div className="p-6 bg-white">
+                {/* Search and Filter Section */}
+                <div className="flex justify-between mb-10">
+                  <div className="w-1/3 relative">
+                    {/* Input Field */}
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={search}
+                      onChange={handleSearchChange}
+                      className="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
+                    />
+
+                    {/* Search Icon */}
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={openModal}
+                    className="bg-[#00C795] hover:bg-[#135D54] text-white px-4 py-2 rounded-md"
+                  >
+                    Filter
+                  </button>
+                  <FilterModal isOpen={isModalOpen} closeModal={closeModal} />
+                </div>
+
+                {/* Table */}
+                <div className="overflow-x-auto text-xs mb-5 rounded-md shadow-lg flex-grow p-4">
+                  <table className="w-full">
+                    <thead className="bg-[#Ffffff] text-[#4A5D58]">
+                      <tr>
+                        <th className="px-4 py-2 border text-left">S/N</th>
+                        <th className="px-4 py-2 border text-left">
+                          Customer Ref.
+                        </th>
+                        <th className="px-4 py-2 border text-left">
+                          Loan Amount
+                        </th>
+                        <th className="px-4 py-2 border text-left">
+                          Email Address
+                        </th>
+                        <th className="px-4 py-2 border text-left">
+                          First Name
+                        </th>
+                        <th className="px-4 py-2 border text-left">
+                          Middle Name
+                        </th>
+                        <th className="px-4 py-2 border text-left">
+                          Last Name
+                        </th>
+                        <th className="px-4 py-2 border text-left">
+                          Application Date
+                        </th>
+                        <th className="px-4 py-2 border text-left">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentItems.map((row, index) => (
+                        <tr key={row.id}>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {startIndex + index + 1}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {row.ref}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {row.amount}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {row.email}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {row.firstName}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {row.middleName}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {row.lastName}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            {row.date}
+                          </td>
+                          <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
+                            <Link to={`/customer-details/${row.id}`}>
+                              <button className="text-[#007BEC] hover:underline">
+                                View
+                              </button>
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Pagination */}
+                <Pagination
+                  currentPage={currentPage}
+                  totalItems={loanData.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Help Widget Ends */}
         </div>

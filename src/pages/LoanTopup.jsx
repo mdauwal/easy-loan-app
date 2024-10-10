@@ -40,7 +40,7 @@ import setupIcon from "../assets/setupIcon.png";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: home, current: true },
+  { name: "Dashboard", href: "/dashboard", icon: home, current: true },
   { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
     children: [
       { name: "Customer", href: "/loan-app/customer" },

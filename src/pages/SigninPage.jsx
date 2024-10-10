@@ -1,5 +1,5 @@
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"; // Import useState hook
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
 
@@ -10,6 +10,7 @@ export default function Signin() {
   const [password, setPassword] = useState(""); // State to track password input
   const [passwordError, setPasswordError] = useState(""); // State to track password error
   const [formValid, setFormValid] = useState(false); // State to track form validity
+  const navigate = useNavigate(); // Hook for navigation after login
   const currentDate = new Date().getFullYear();
 
   // Toggle password visibility
@@ -25,7 +26,7 @@ export default function Signin() {
     } else {
       setUsernameError(""); // Clear error if username is valid
     }
-    checkFormValidity();
+    checkFormValidity(value, password); // Pass the updated username and current password
   };
 
   // Handle password change and validation
@@ -37,12 +38,12 @@ export default function Signin() {
     } else {
       setPasswordError(""); // Clear error if password is valid
     }
-    checkFormValidity();
+    checkFormValidity(username, value); // Pass the current username and updated password
   };
 
   // Check if the form is valid
-  const checkFormValidity = () => {
-    if (username.length >= 5 && password.length >= 8) {
+  const checkFormValidity = (updatedUsername, updatedPassword) => {
+    if (updatedUsername.length >= 5 && updatedPassword.length >= 8) {
       setFormValid(true); // Form is valid
     } else {
       setFormValid(false); // Form is invalid
@@ -58,8 +59,9 @@ export default function Signin() {
     }
 
     console.log("Form submitted");
-    // Example redirect to login page
-    // navigate("/dashboard"); // Use the appropriate navigation logic
+
+    // Navigate to the dashboard after successful form submission
+    navigate("/dashboard");
   };
 
   return (
@@ -99,7 +101,7 @@ export default function Signin() {
                       autoComplete="uname"
                       placeholder="Username"
                       onChange={(e) => validateUsername(e.target.value)} // Validate on change
-                      className="block w-full rounded-md border-0 p-2 shadow-sm ring-1 ring-inset ring-[#BFCCC9] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
+                      className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
                     />
                   </div>
                   {usernameError && (
@@ -119,7 +121,7 @@ export default function Signin() {
                       required
                       autoComplete="current-password"
                       placeholder="Password"
-                      className="block w-full rounded-md border-0 p-2 shadow-sm ring-1 ring-inset ring-[#BFCCC9] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
+                      className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
                     />
                     <span
                       className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
@@ -139,7 +141,7 @@ export default function Signin() {
 
                 {/* Submit Button */}
                 <div>
-                  <Link to="/dashboard"
+                  <button
                     type="submit"
                     className={`flex w-full justify-center rounded-md bg-[#00C795] hover:bg-[#007970] hover:scale-105 transition-all duration-300 transform px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#007970] ${
                       formValid ? "" : "opacity-50 cursor-not-allowed"
@@ -147,7 +149,7 @@ export default function Signin() {
                     disabled={!formValid} // Disable button if form is invalid
                   >
                     Sign in
-                  </Link>
+                  </button>
                   <div className="flex items-center justify-center p-10 gap-2">
                     <p className="text-#4A5D58">Forgot password?</p>
                     <Link
@@ -161,9 +163,9 @@ export default function Signin() {
               </form>
             </div>
 
-            <div className="mt-20">
-              <div className="mt-6 flex justify-center xs:text-xs">
-                <p className="text-sm text-[#135D54]">
+            <div className="mt-20 ">
+              <div className="mt-6 flex justify-center">
+                <p className="text-xs text-[#135D54]">
                   &copy; {currentDate} CreditWave Finance Limited | All Rights
                   Reserved
                 </p>

@@ -40,7 +40,7 @@ import setupIcon from "../assets/setupIcon.png";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: home, current: true },
+  { name: "Dashboard", href: "/dashboard", icon: home, current: true },
   { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
     children: [
       { name: "Customer", href: "/loan-app/customer" },
@@ -53,45 +53,45 @@ const navigation = [
    },
   { name: "Loan Underwriting", href: "#", icon: underwriterIcon, current: false, hasDropdown: true,
     children: [
-      { name: "Review", href: "/underwriter/review" },
-      { name: "Approval", href: "/underwriter/approval" },
-      { name: "Disbursement", href: "/underwriter/disbursement" },
-      { name: "Loan Re-assignment", href: "/underwriter/re-assignment" },
+      { name: "Review", href: "#" },
+      { name: "Approval", href: "#" },
+      { name: "Disbursement", href: "#" },
+      { name: "Loan Re-assignment", href: "#" },
     ],
    },
   { name: "Collection", href: "#", icon: collectIcon, current: false, hasDropdown: true, 
     children: [
-      { name: "Repayment", href: "/collection/monthly" },
-      { name: "Summary", href: "/collection/annual" },
-      { name: "Report", href: "/collection/report" },
+      { name: "Repayment", href: "#" },
+      { name: "Summary", href: "#" },
+      { name: "Report", href: "#" },
     ],
    },
   { name: "Staff", href: "#", icon: staffIcon, current: false, hasDropdown: true, 
     children: [
-      { name: "Loan", href: "/staff/loan" },
+      { name: "Loan", href: "#" },
     ],
    },
   { name: "CRM", href: "#", icon: crmIcon, current: false, hasDropdown: true, 
     children: [
-      { name: "Add Client", href: "/crm/add-client" },
-      { name: "Clients", href: "/crm/add-client" },
-      { name: "Notification", href: "/crm/notification" },
-      { name: "Customer Account Tier", href: "/crm/account-tier" },
+      { name: "Add Client", href: "#" },
+      { name: "Clients", href: "#" },
+      { name: "Notification", href: "#" },
+      { name: "Customer Account Tier", href: "#" },
     ],
    },
   { name: "Administration", href: "#", icon: adminIcon, current: false, hasDropdown: true, 
     children: [
-      { name: "Product", href: "/admin/product" },
-      { name: "Underwriter", href: "/admin/underwriter" },
-      { name: "Staff", href: "/admin/staff" },
-      { name: "Loan Tenor", href: "/admin/loan-tenor" },
-      { name: "Report", href: "/admin/report" },
+      { name: "Product", href: "#" },
+      { name: "Underwriter", href: "#" },
+      { name: "Staff", href: "#" },
+      { name: "Loan Tenor", href: "#" },
+      { name: "Report", href: "#" },
     ],
    },
-  { name: "Debt Management", href: "debt", icon: debtIcon, current: false },
-  { name: "Bridge Loan", href: "bridge-loan", icon: bridgeIcon, current: false },
-  { name: "Customer Centric", href: "customer", icon: centricIcon, current: false },
-  { name: "General Setup", href: "setup", icon: setupIcon, current: false },
+  { name: "Debt Management", href: "#", icon: debtIcon, current: false },
+  { name: "Bridge Loan", href: "#", icon: bridgeIcon, current: false },
+  { name: "Customer Centric", href: "#", icon: centricIcon, current: false },
+  { name: "General Setup", href: "#", icon: setupIcon, current: false },
 
   // Example of dropdown with nested menu items (e.g., for "Report")
   {
@@ -101,8 +101,8 @@ const navigation = [
     current: false,
     hasDropdown: true,
     children: [
-      { name: "Monthly Report", href: "/report/monthly" },
-      { name: "Annual Report", href: "/report/annual" },
+      { name: "Monthly Report", href: "#" },
+      { name: "Annual Report", href: "#" },
     ],
   },
 ];

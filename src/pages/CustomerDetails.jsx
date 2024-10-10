@@ -1,4 +1,5 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import {
   Dialog,
@@ -10,11 +11,12 @@ import {
   MenuItems,
   TransitionChild,
 } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { ChevronDownIcon, ChevronUpIcon, BellIcon } from "@heroicons/react/24/solid";
+  ChevronDownIcon,
+  ChevronUpIcon,
+  BellIcon,
+} from "@heroicons/react/24/solid";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.png";
 import loanIcon from "../assets/loanIcon.png";
@@ -29,12 +31,18 @@ import centricIcon from "../assets/centricIcon.png";
 import debtIcon from "../assets/debtIcon.png";
 import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
-
+import LoanDetailsTab from "./LoanDetailsTab";
+import { loanData } from "./data";
 import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: home, current: true },
-  { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
+  {
+    name: "Loan Application",
+    href: "#",
+    icon: loanIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Customer", href: "/loan-app/customer" },
       { name: "Declined", href: "/loan-app/declined" },
@@ -43,48 +51,71 @@ const navigation = [
       { name: "Loan Restructuring", href: "/loan-app/restructure" },
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
-   },
-  { name: "Loan Underwriting", href: "#", icon: underwriterIcon, current: false, hasDropdown: true,
+  },
+  {
+    name: "Loan Underwriting",
+    href: "#",
+    icon: underwriterIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Review", href: "/underwriter/review" },
-      { name: "Approval", href: "/underwriter/approval" },
-      { name: "Disbursement", href: "/underwriter/disbursement" },
-      { name: "Loan Re-assignment", href: "/underwriter/re-assignment" },
+      { name: "Review", href: "#" },
+      { name: "Approval", href: "#" },
+      { name: "Disbursement", href: "#" },
+      { name: "Loan Re-assignment", href: "#" },
     ],
-   },
-  { name: "Collection", href: "#", icon: collectIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Collection",
+    href: "#",
+    icon: collectIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Repayment", href: "/collection/monthly" },
-      { name: "Summary", href: "/collection/annual" },
-      { name: "Report", href: "/collection/report" },
+      { name: "Repayment", href: "#" },
+      { name: "Summary", href: "#" },
+      { name: "Report", href: "#" },
     ],
-   },
-  { name: "Staff", href: "#", icon: staffIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Staff",
+    href: "#",
+    icon: staffIcon,
+    current: false,
+    hasDropdown: true,
+    children: [{ name: "Loan", href: "#" }],
+  },
+  {
+    name: "CRM",
+    href: "#",
+    icon: crmIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Loan", href: "/staff/loan" },
+      { name: "Add Client", href: "#" },
+      { name: "Clients", href: "#" },
+      { name: "Notification", href: "#" },
+      { name: "Customer Account Tier", href: "#" },
     ],
-   },
-  { name: "CRM", href: "#", icon: crmIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Administration",
+    href: "#",
+    icon: adminIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Add Client", href: "/crm/add-client" },
-      { name: "Clients", href: "/crm/add-client" },
-      { name: "Notification", href: "/crm/notification" },
-      { name: "Customer Account Tier", href: "/crm/account-tier" },
+      { name: "Product", href: "#" },
+      { name: "Underwriter", href: "#" },
+      { name: "Staff", href: "#" },
+      { name: "Loan Tenor", href: "#" },
+      { name: "Report", href: "#" },
     ],
-   },
-  { name: "Administration", href: "#", icon: adminIcon, current: false, hasDropdown: true, 
-    children: [
-      { name: "Product", href: "/admin/product" },
-      { name: "Underwriter", href: "/admin/underwriter" },
-      { name: "Staff", href: "/admin/staff" },
-      { name: "Loan Tenor", href: "/admin/loan-tenor" },
-      { name: "Report", href: "/admin/report" },
-    ],
-   },
-  { name: "Debt Management", href: "debt", icon: debtIcon, current: false },
-  { name: "Bridge Loan", href: "bridge-loan", icon: bridgeIcon, current: false },
-  { name: "Customer Centric", href: "customer", icon: centricIcon, current: false },
-  { name: "General Setup", href: "setup", icon: setupIcon, current: false },
+  },
+  { name: "Debt Management", href: "#", icon: debtIcon, current: false },
+  { name: "Bridge Loan", href: "#", icon: bridgeIcon, current: false },
+  { name: "Customer Centric", href: "#", icon: centricIcon, current: false },
+  { name: "General Setup", href: "#", icon: setupIcon, current: false },
 
   // Example of dropdown with nested menu items (e.g., for "Report")
   {
@@ -94,8 +125,8 @@ const navigation = [
     current: false,
     hasDropdown: true,
     children: [
-      { name: "Monthly Report", href: "/report/monthly" },
-      { name: "Annual Report", href: "/report/annual" },
+      { name: "Monthly Report", href: "#" },
+      { name: "Annual Report", href: "#" },
     ],
   },
 ];
@@ -110,35 +141,41 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
 export default function CustomerDetails() {
+  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+  const [activeTab, setActiveTab] = useState("Information"); // Default to 'Information' tab
+  const [filteredData, setFilteredData] = useState(loanData); // State for filtered data
+
+  const handleSearchChange = (e) => {
+    const searchTerm = e.target.value.toLowerCase(); // Case-insensitive search
+    setSearchTerm(searchTerm);
+
+    // Filter based on Application ID, first name, last name, email, and amount
+    const filtered = loanData.filter(
+      (loan) =>
+        loan.ref.toLowerCase().includes(searchTerm) || // Application ID
+        loan.firstName.toLowerCase().includes(searchTerm) || // First name
+        loan.lastName.toLowerCase().includes(searchTerm) || // Last name
+        loan.email.toLowerCase().includes(searchTerm) || // Email
+        loan.amount.toLowerCase().includes(searchTerm) // Amount
+    );
+
+    setFilteredData(filtered); // Update the filtered data
+  };
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [date, setDate] = useState(new Date()); // State for interactive calendar
+  
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
   };
-
-  const { id } = useParams(); // To get the customer ID from the route
-
-  // Dummy data to simulate fetching customer details
-  const customerData = {
-    applicationID: 'CUS20230904-122',
-    amountRequested: '₦50,000.00',
-    interest: '₦10,000.00',
-    totalAmount: '₦60,000.00',
-    status: 'Under Review',
-    duration: '30 Days',
-    applicationDate: 'Sept 04, 2023 2:12PM',
-    submissionDate: 'Sept 04, 2023 2:12PM',
-  };
-
+  
 
   return (
     <>
       <div>
-      <Dialog
+        <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
           className="relative z-50 lg:hidden"
@@ -226,7 +263,6 @@ export default function CustomerDetails() {
                         ))}
                       </ul>
                     </li>
-          
                   </ul>
                 </nav>
               </div>
@@ -293,8 +329,6 @@ export default function CustomerDetails() {
                     ))}
                   </ul>
                 </li>
-
-
               </ul>
             </nav>
           </div>
@@ -382,48 +416,79 @@ export default function CustomerDetails() {
           </div>
 
           {/* Table Details */}
-
-          <div className="w-full max-w-4xl bg-white mt-10 ml-10 p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Customer Details</h2>
-        <div className="border-b border-gray-300 mb-4 pb-2">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="font-semibold">Application ID</div>
-            <div>{customerData.applicationID}</div>
-
-            <div className="font-semibold">Amount Requested</div>
-            <div>{customerData.amountRequested}</div>
-
-            <div className="font-semibold">Interest</div>
-            <div>{customerData.interest}</div>
-
-            <div className="font-semibold">Total Amount</div>
-            <div>{customerData.totalAmount}</div>
-
-            <div className="font-semibold">Status</div>
-            <div>{customerData.status}</div>
-
-            <div className="font-semibold">Duration</div>
-            <div>{customerData.duration}</div>
-
-            <div className="font-semibold">Application Date</div>
-            <div>{customerData.applicationDate}</div>
-
-            <div className="font-semibold">Submission Date</div>
-            <div>{customerData.submissionDate}</div>
+          <div className="mt-10 z-10 bg-[#ffffff] ml-4 mr-4 lg:ml-10 lg:mr-10 p-5 rounded-md shadow-lg">
+  <div className="flex items-center mb-4">
+    <div className="relative w-full sm:w-1/2 md:w-1/3">
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="w-full p-2 pr-10 pl-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
+      />
+      <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+   {/* Render filtered results */}
+   <div>
+            {filteredData.length > 0 && (
+              filteredData.map((loan) => (
+                <LoanDetailsTab key={loan.id} details={loan} />
+              ))
+            )}
           </div>
-        </div>
 
-        
-      </div>
+  {/* Responsive Tabs */}
+  <div className="flex flex-wrap space-x-2 mb-6 overflow-x-auto">
+    {Object.keys(loanData).map((tab) => (
+      <button
+        key={tab}
+        className={`px-4 py-2 rounded-md text-sm whitespace-nowrap ${
+          activeTab === tab
+            ? "hover:underline text-[#4A5D58] font-semibold"
+            : "bg-white text-gray-600 hover:bg-gray-100"
+        }`}
+        onClick={() => setActiveTab(tab)}
+      >
+        {tab.replace(/([A-Z])/g, " $1")}
+      </button>
+    ))}
+  </div>
 
-      <div className="flex justify-start gap-4 ml-5 p-6 ">
-          <button className="bg-[#ffffff] hover:bg-[#EAFFFA] text-[#072320] outline outline-2 outline-[#00C795] outline-offset-2 font-semibold py-2 px-4 rounded">
-            Decline Loan
-          </button>
-          <button className="bg-[#00C795] hover:bg-[#135D54] text-white font-semibold py-2 px-4 rounded">
-            Complete Review
-          </button>
-        </div>
+  {/* Conditionally rendered details */}
+  <div>
+    <LoanDetailsTab details={loanData[activeTab]} />
+  </div>
+  {/* Responsive Buttons */}
+<div className="flex mr-10 flex-col sm:flex-row justify-end mt-5 mb-5 text-sm space-y-3 sm:space-y-0 sm:space-x-4">
+  <button className="bg-[#ffffff] text-[#FF0909] outline outline-2 outline-[#FF0909] outline-offset-2 font-semibold px-4 py-2 rounded-md w-full sm:w-auto">
+    Decline Loan
+  </button>
+  <button className="bg-[#00C795] hover:bg-[#135D54] text-white px-4 py-2 rounded-md w-full sm:w-auto">
+    Complete Review
+  </button>
+</div>
+
+</div>
+
+
+
+
           {/* Help Widget Ends */}
         </div>
       </div>
