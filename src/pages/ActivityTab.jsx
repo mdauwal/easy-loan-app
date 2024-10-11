@@ -46,7 +46,7 @@ const ActivityTab = () => {
             id="comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            className="border rounded-md px-3 py-2"
+            className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00C795]"
             placeholder="Comment"
           />
         </div>
@@ -85,7 +85,7 @@ const ActivityTab = () => {
         <div className="flex items-end">
           <button
             onClick={handleSearch}
-            className="bg-[#00C795] text-white px-4 py-2 rounded-md"
+            className="bg-[#00C795]  text-white px-4 py-2 rounded-md"
           >
             Search
           </button>

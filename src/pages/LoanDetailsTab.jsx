@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { loanData } from '../pages/data'; // Import your mock data
 import { CSVLink } from 'react-csv';
 import ActivityTab from "../pages/ActivityTab";
+
 import SupportingDocuments from "../pages/SupportingDocuments"; // Import the SupportingDocuments component
 
 const LoanDetailsTab = () => {
@@ -16,24 +17,59 @@ const LoanDetailsTab = () => {
       case 'Information':
         return (
           <div>
-            <h3>Application Information</h3>
-            <p>Application ID: {loanData.Information.applicationId}</p>
-            <p>Amount Requested: {loanData.Information.amountRequested}</p>
-            <p>Interest: {loanData.Information.interest}</p>
-            <p>Total Amount: {loanData.Information.totalAmount}</p>
-            <p>Processing Fee: {loanData.Information.processingFee}</p>
-            <p>Assigned Loan Officer: {loanData.Information.assignedLoanOfficer}</p>
-            <p>Application Date: {loanData.Information.applicationDate}</p>
-            <p>Submission Date: {loanData.Information.submissionDate}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Application ID:</span>
+                <span className="text-gray-800">{loanData.Information.applicationId}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Amount Requested:</span>
+                <span className="text-gray-800">{loanData.Information.amountRequested}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Interest:</span>
+                <span className="text-gray-800">{loanData.Information.interest}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Total Amount:</span>
+                <span className="text-gray-800">{loanData.Information.totalAmount}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Processing Fee:</span>
+                <span className="text-gray-800">{loanData.Information.processingFee}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Assigned Loan Officer:</span>
+                <span className="text-gray-800">{loanData.Information.assignedLoanOfficer}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Application Date:</span>
+                <span className="text-gray-800">{loanData.Information.applicationDate}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Submission Date:</span>
+                <span className="text-gray-800">{loanData.Information.submissionDate}</span>
+              </div>
+            </div>
           </div>
         );
       case 'CRC Nano Report':
         return (
           <div>
-            <h3>CRC Nano Report</h3>
-            <p>Application ID: {loanData.CRCNanoReport.applicationID}</p>
-            <p>Amount Requested: {loanData.CRCNanoReport.amountRequested}</p>
-            <p>Interest: {loanData.CRCNanoReport.interest}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Application ID:</span>
+                <span className="text-gray-800">{loanData.CRCNanoReport.applicationID}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Amount Requested:</span>
+                <span className="text-gray-800">{loanData.CRCNanoReport.amountRequested}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Interest:</span>
+                <span className="text-gray-800">{loanData.CRCNanoReport.interest}</span>
+              </div>
+            </div>
             <CSVLink
               data={[
                 ['Bank Name', 'Account Number', 'Statement Period', 'Total Deposits', 'Total Withdrawals'],
@@ -55,13 +91,28 @@ const LoanDetailsTab = () => {
       case 'Bank Statement':
         return (
           <div>
-            <h3>Bank Statement</h3>
-            <p>Bank Name: {loanData.BankStatement.bankName}</p>
-            <p>Account Number: {loanData.BankStatement.accountNumber}</p>
-            <p>Statement Period: {loanData.BankStatement.statementPeriod}</p>
-            <p>Total Deposits: {loanData.BankStatement.totalDeposits}</p>
-            <p>Total Withdrawals: {loanData.BankStatement.totalWithdrawals}</p>
-
+            <div className="space-y-2">
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Bank Name:</span>
+                <span className="text-gray-800">{loanData.BankStatement.bankName}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Account Number:</span>
+                <span className="text-gray-800">{loanData.BankStatement.accountNumber}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Statement Period:</span>
+                <span className="text-gray-800">{loanData.BankStatement.statementPeriod}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Total Deposits:</span>
+                <span className="text-gray-800">{loanData.BankStatement.totalDeposits}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600">Total Withdrawals:</span>
+                <span className="text-gray-800">{loanData.BankStatement.totalWithdrawals}</span>
+              </div>
+            </div>
             <CSVLink
               data={[
                 ['Bank Name', 'Account Number', 'Statement Period', 'Total Deposits', 'Total Withdrawals'],
@@ -119,12 +170,12 @@ const LoanDetailsTab = () => {
         >
           Activity
         </button>
-        <button
+        {/* <button
           className={`px-4 py-2 ${activeTab === 'Activity' ? 'border-b-2 border-[#00C795]' : ''}`}
           onClick={() => handleTabClick('Activity')}
         >
           Repayment Details
-        </button>
+        </button> */}
         <button
           className={`px-4 py-2 ${activeTab === 'Supporting Documents' ? 'border-b-2 border-[#00C795]' : ''}`}
           onClick={() => handleTabClick('Supporting Documents')}
