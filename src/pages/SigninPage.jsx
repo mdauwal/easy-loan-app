@@ -2,6 +2,7 @@ import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"; // Import useState hook
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
+import IndemnityModal from "./IndemnityModal";
 
 export default function Signin() {
   const [username, setUsername] = useState(""); // to track input value
@@ -10,6 +11,7 @@ export default function Signin() {
   const [password, setPassword] = useState(""); // State to track password input
   const [passwordError, setPasswordError] = useState(""); // State to track password error
   const [formValid, setFormValid] = useState(false); // State to track form validity
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
   const navigate = useNavigate(); // Hook for navigation after login
   const currentDate = new Date().getFullYear();
 
@@ -62,6 +64,17 @@ export default function Signin() {
 
     // Navigate to the dashboard after successful form submission
     navigate("/dashboard");
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    // Navigate to the sign-up or another page after user agrees
+    navigate("/signup"); // Example route to your signup page
+  };
+
+  const handleSignupClick = (e) => {
+    e.preventDefault();
+    setIsModalOpen(true); // Open the indemnity modal when "SIGN UP" is clicked
   };
 
   return (
@@ -150,7 +163,7 @@ export default function Signin() {
                   >
                     Sign in
                   </button>
-                  <div className="flex items-center justify-center p-10 gap-2">
+                  <div className="flex items-center justify-center p-5 gap-2">
                     <p className="text-#4A5D58">Forgot password?</p>
                     <Link
                       to="/verify-login"
@@ -159,6 +172,16 @@ export default function Signin() {
                       Click here
                     </Link>
                   </div>
+                  <div className="flex flex-col sm:flex-row items-center justify-center pt-0 p-5 gap-2 text-center sm:text-left">
+  <p className="text-gray-600 text-sm">Need an Easy Loan Access Account?</p>
+  <button
+    onClick={handleSignupClick}
+    className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
+  >
+    SIGN UP
+  </button>
+</div>
+
                 </div>
               </form>
             </div>
@@ -174,6 +197,9 @@ export default function Signin() {
           </div>
         </div>
       </div>
+
+      {/* Indemnity Modal */}
+      <IndemnityModal isOpen={isModalOpen} onClose={handleModalClose} />
     </>
   );
 }

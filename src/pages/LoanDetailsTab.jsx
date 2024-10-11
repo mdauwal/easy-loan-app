@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { loanData } from '../pages/data'; // Import your mock data
 import { CSVLink } from 'react-csv';
 import ActivityTab from "../pages/ActivityTab";
-
 import SupportingDocuments from "../pages/SupportingDocuments"; // Import the SupportingDocuments component
 
 const LoanDetailsTab = () => {
@@ -16,60 +15,25 @@ const LoanDetailsTab = () => {
     switch (activeTab) {
       case 'Information':
         return (
-          <div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Application ID:</span>
-                <span className="text-gray-800">{loanData.Information.applicationId}</span>
+          <div className="space-y-2">
+            {Object.entries(loanData.Information).map(([key, value]) => (
+              <div key={key} className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1')}: </span>
+                <span className="text-gray-800">{value}</span>
               </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Amount Requested:</span>
-                <span className="text-gray-800">{loanData.Information.amountRequested}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Interest:</span>
-                <span className="text-gray-800">{loanData.Information.interest}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Total Amount:</span>
-                <span className="text-gray-800">{loanData.Information.totalAmount}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Processing Fee:</span>
-                <span className="text-gray-800">{loanData.Information.processingFee}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Assigned Loan Officer:</span>
-                <span className="text-gray-800">{loanData.Information.assignedLoanOfficer}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Application Date:</span>
-                <span className="text-gray-800">{loanData.Information.applicationDate}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Submission Date:</span>
-                <span className="text-gray-800">{loanData.Information.submissionDate}</span>
-              </div>
-            </div>
+            ))}
           </div>
         );
+
       case 'CRC Nano Report':
         return (
-          <div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Application ID:</span>
-                <span className="text-gray-800">{loanData.CRCNanoReport.applicationID}</span>
+          <div className="space-y-2">
+            {Object.entries(loanData.CRCNanoReport).map(([key, value]) => (
+              <div key={key} className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1')}: </span>
+                <span className="text-gray-800">{value}</span>
               </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Amount Requested:</span>
-                <span className="text-gray-800">{loanData.CRCNanoReport.amountRequested}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Interest:</span>
-                <span className="text-gray-800">{loanData.CRCNanoReport.interest}</span>
-              </div>
-            </div>
+            ))}
             <CSVLink
               data={[
                 ['Bank Name', 'Account Number', 'Statement Period', 'Total Deposits', 'Total Withdrawals'],
@@ -88,31 +52,16 @@ const LoanDetailsTab = () => {
             </CSVLink>
           </div>
         );
+
       case 'Bank Statement':
         return (
-          <div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Bank Name:</span>
-                <span className="text-gray-800">{loanData.BankStatement.bankName}</span>
+          <div className="space-y-2">
+            {Object.entries(loanData.BankStatement).map(([key, value]) => (
+              <div key={key} className="flex justify-between items-center py-2">
+                <span className="font-semibold text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1')}: </span>
+                <span className="text-gray-800">{value}</span>
               </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Account Number:</span>
-                <span className="text-gray-800">{loanData.BankStatement.accountNumber}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Statement Period:</span>
-                <span className="text-gray-800">{loanData.BankStatement.statementPeriod}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Total Deposits:</span>
-                <span className="text-gray-800">{loanData.BankStatement.totalDeposits}</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600">Total Withdrawals:</span>
-                <span className="text-gray-800">{loanData.BankStatement.totalWithdrawals}</span>
-              </div>
-            </div>
+            ))}
             <CSVLink
               data={[
                 ['Bank Name', 'Account Number', 'Statement Period', 'Total Deposits', 'Total Withdrawals'],
@@ -131,10 +80,10 @@ const LoanDetailsTab = () => {
             </CSVLink>
           </div>
         );
+
       case 'Activity':
         return <ActivityTab />;
-      
-      // Supporting Documents Case
+
       case 'Supporting Documents':
         return <SupportingDocuments />;
 
@@ -144,44 +93,17 @@ const LoanDetailsTab = () => {
   };
 
   return (
-    <div>
-      <div className="flex space-x-4 border-b text-[#4A5D58]">
-        <button
-          className={`px-4 py-2 ${activeTab === 'Information' ? 'border-b-2 border-[#00C795]' : ''}`}
-          onClick={() => handleTabClick('Information')}
-        >
-          Information
-        </button>
-        <button
-          className={`px-4 py-2 ${activeTab === 'Bank Statement' ? 'border-b-2 border-[#00C795]' : ''}`}
-          onClick={() => handleTabClick('Bank Statement')}
-        >
-          Bank Statement
-        </button>
-        <button
-          className={`px-4 py-2 ${activeTab === 'CRC Nano Report' ? 'border-b-2 border-[#00C795]' : ''}`}
-          onClick={() => handleTabClick('CRC Nano Report')}
-        >
-          CRC Nano Report
-        </button>
-        <button
-          className={`px-4 py-2 ${activeTab === 'Activity' ? 'border-b-2 border-[#00C795]' : ''}`}
-          onClick={() => handleTabClick('Activity')}
-        >
-          Activity
-        </button>
-        {/* <button
-          className={`px-4 py-2 ${activeTab === 'Activity' ? 'border-b-2 border-[#00C795]' : ''}`}
-          onClick={() => handleTabClick('Activity')}
-        >
-          Repayment Details
-        </button> */}
-        <button
-          className={`px-4 py-2 ${activeTab === 'Supporting Documents' ? 'border-b-2 border-[#00C795]' : ''}`}
-          onClick={() => handleTabClick('Supporting Documents')}
-        >
-          Supporting Documents
-        </button>
+    <div className="p-4">
+      <div className="flex space-x-4 border-b text-[#4A5D58] overflow-x-auto">
+        {['Information', 'Bank Statement', 'CRC Nano Report', 'Activity', 'Supporting Documents'].map((tab) => (
+          <button
+            key={tab}
+            className={`px-4 py-2 whitespace-nowrap ${activeTab === tab ? 'border-b-2 border-[#00C795]' : ''}`}
+            onClick={() => handleTabClick(tab)}
+          >
+            {tab}
+          </button>
+        ))}
       </div>
 
       <div className="mt-4">{renderTabContent()}</div>
