@@ -33,10 +33,11 @@ import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
 import LoanDetailsTab from "./LoanDetailsTab";
 import { loanData } from "./data";
+import DeclineModal from "./DeclineModal";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: home, current: true },
+  { name: "Dashboard", href: "/dashboard", icon: home, current: true },
   {
     name: "Loan Application",
     href: "#",
@@ -116,8 +117,6 @@ const navigation = [
   { name: "Bridge Loan", href: "#", icon: bridgeIcon, current: false },
   { name: "Customer Centric", href: "#", icon: centricIcon, current: false },
   { name: "General Setup", href: "#", icon: setupIcon, current: false },
-
-  // Example of dropdown with nested menu items (e.g., for "Report")
   {
     name: "Report",
     icon: reportIcon,
@@ -142,6 +141,7 @@ function classNames(...classes) {
 }
 
 export default function CustomerDetails() {
+  const [isModalOpen, setIsModalOpen] = useState(false); // Fixed typo in modal state
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const [activeTab, setActiveTab] = useState("Information"); // Default to 'Information' tab
   const [filteredData, setFilteredData] = useState(loanData); // State for filtered data
@@ -164,17 +164,33 @@ export default function CustomerDetails() {
   };
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
   };
-  
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeclineLoan = () => {
+    openModal(); // Open modal when decline is clicked
+  };
+
+  const handleCompleteReview = () => {
+    console.log("Review Completed");
+  };
 
   return (
     <>
       <div>
+        {/* Sidebar and Header */}
         <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
@@ -417,78 +433,65 @@ export default function CustomerDetails() {
 
           {/* Table Details */}
           <div className="mt-10 z-10 bg-[#ffffff] ml-4 mr-4 lg:ml-10 lg:mr-10 p-5 rounded-md shadow-lg">
-  <div className="flex items-center mb-4">
-    <div className="relative w-full sm:w-1/2 md:w-1/3">
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="w-full p-2 pr-10 pl-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
-      />
-      <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
-          />
-        </svg>
-      </span>
-    </div>
-  </div>
-   {/* Render filtered results */}
-   <div>
-            {filteredData.length > 0 && (
-              filteredData.map((loan) => (
-                <LoanDetailsTab key={loan.id} details={loan} />
-              ))
-            )}
+            <div className="flex items-center mb-4">
+              <div className="relative w-full sm:w-1/2 md:w-1/3">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="w-full p-2 pr-10 pl-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
+                />
+                <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            {/* Render filtered results */}
+            <div>
+              {filteredData.length > 0 &&
+                filteredData.map((loan) => (
+                  <LoanDetailsTab key={loan.id} details={loan} />
+                ))}
+            </div>
+
+            {/* Conditionally rendered details */}
+            <div>
+              <LoanDetailsTab details={loanData[activeTab]} />
+            </div>
+
+            {/* Modal for Declining Loan */}
+            <DeclineModal isOpen={isModalOpen} closeModal={closeModal} />
           </div>
-
-  {/* Responsive Tabs */}
-  <div className="flex flex-wrap space-x-2 mb-6 overflow-x-auto">
-    {Object.keys(loanData).map((tab) => (
-      <button
-        key={tab}
-        className={`px-4 py-2 rounded-md text-sm whitespace-nowrap ${
-          activeTab === tab
-            ? "hover:underline text-[#4A5D58] font-semibold"
-            : "bg-white text-gray-600 hover:bg-gray-100"
-        }`}
-        onClick={() => setActiveTab(tab)}
-      >
-        {tab.replace(/([A-Z])/g, " $1")}
-      </button>
-    ))}
-  </div>
-
-  {/* Conditionally rendered details */}
-  <div>
-    <LoanDetailsTab details={loanData[activeTab]} />
-  </div>
-  {/* Responsive Buttons */}
-<div className="flex mr-10 flex-col sm:flex-row justify-end mt-5 mb-5 text-sm space-y-3 sm:space-y-0 sm:space-x-4">
-  <button className="bg-[#ffffff] text-[#FF0909] outline outline-2 outline-[#FF0909] outline-offset-2 font-semibold px-4 py-2 rounded-md w-full sm:w-auto">
-    Decline Loan
-  </button>
-  <button className="bg-[#00C795] hover:bg-[#135D54] text-white px-4 py-2 rounded-md w-full sm:w-auto">
-    Complete Review
-  </button>
-</div>
-
-</div>
-
-
-
-
+          {/* Decline Loan and Complete Review Buttons */}
+          <div className="mt-5 mr-10 flex justify-end mb-10 p-1 space-x-3">
+            <button
+              onClick={handleDeclineLoan}
+              className="px-4 py-2 border border-[#FF0000] bg-[#FF0000] text-white rounded-md"
+            >
+              Decline Loan
+            </button>
+            <button
+              onClick={handleCompleteReview}
+              className="px-4 py-2 bg-[#00C795] text-white rounded-md"
+            >
+              Complete Review
+            </button>
+          </div>
           {/* Help Widget Ends */}
         </div>
       </div>

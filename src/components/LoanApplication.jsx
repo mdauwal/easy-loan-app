@@ -153,7 +153,7 @@ function classNames(...classes) {
 
 const currentTime = new Date().toLocaleString();
 
-export default function SideNavLayout() {
+export default function LoanApplication() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [date, setDate] = useState(new Date()); // State for interactive calendar
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
