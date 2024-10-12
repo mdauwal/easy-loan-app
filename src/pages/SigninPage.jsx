@@ -1,91 +1,98 @@
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react"; // Import useState hook
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
+import { useState } from "react"; 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import IndemnityModal from "./IndemnityModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Signin() {
-  const [username, setUsername] = useState(""); // to track input value
-  const [usernameError, setUsernameError] = useState(""); // to track username validation error
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-  const [password, setPassword] = useState(""); // State to track password input
-  const [passwordError, setPasswordError] = useState(""); // State to track password error
-  const [formValid, setFormValid] = useState(false); // State to track form validity
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-  const navigate = useNavigate(); // Hook for navigation after login
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [formValid, setFormValid] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const currentDate = new Date().getFullYear();
 
-  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  // Validate username input
   const validateUsername = (value) => {
     setUsername(value);
     if (value.length < 5) {
       setUsernameError("Username must be at least 5 characters long.");
     } else {
-      setUsernameError(""); // Clear error if username is valid
+      setUsernameError("");
     }
-    checkFormValidity(value, password); // Pass the updated username and current password
+    checkFormValidity(value, password);
   };
 
-  // Handle password change and validation
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
     if (value.length < 8) {
       setPasswordError("Password must be at least 8 characters.");
     } else {
-      setPasswordError(""); // Clear error if password is valid
+      setPasswordError("");
     }
-    checkFormValidity(username, value); // Pass the current username and updated password
+    checkFormValidity(username, value);
   };
 
-  // Check if the form is valid
   const checkFormValidity = (updatedUsername, updatedPassword) => {
-    if (updatedUsername.length >= 5 && updatedPassword.length >= 8) {
-      setFormValid(true); // Form is valid
-    } else {
-      setFormValid(false); // Form is invalid
-    }
+    setFormValid(updatedUsername.length >= 5 && updatedPassword.length >= 8);
+  };
+
+  const showToast = (message, type) => {
+    toast[type](message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!formValid) {
-      console.log("Form is not valid");
+      showToast("Please fix the errors in the form!", "error");
       return;
     }
 
-    console.log("Form submitted");
+    showToast("Sign-in successful!", "success");
 
-    // Navigate to the dashboard after successful form submission
-    navigate("/dashboard");
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 3000); // Navigate after the toast disappears
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    // Navigate to the sign-up or another page after user agrees
-    navigate("/signup"); // Example route to your signup page
+    navigate("/signup");
   };
 
   const handleSignupClick = (e) => {
     e.preventDefault();
-    setIsModalOpen(true); // Open the indemnity modal when "SIGN UP" is clicked
+    setIsModalOpen(true);
   };
 
   return (
     <>
+      <ToastContainer />
       <div className="flex min-h-full flex-1 flex-col lg:flex-row">
-        {/* Left Section (hidden on small screens) */}
         <div className="relative hidden w-full lg:w-1/2 lg:block bg-[#00C795]">
           <div className="absolute inset-0 h-full w-full flex flex-col justify-start mt-20 p-10">
             <h1 className="text-white text-5xl font-bold mb-3">Adroit</h1>
-            <p className="text-white text-sm mt-4 text-justify">
-              We evaluate and monitor the non-performing loan accounts and
+            <p className="text-white mt-4 text-justify">
+            We evaluate and monitor the non-performing loan accounts and
               implement a recovery action plan to achieve timely and maximum
               recovery at a minimal cost and appropriate turn-around time
               through acceptable common practices aligned with legal framework
@@ -94,7 +101,6 @@ export default function Signin() {
           </div>
         </div>
 
-        {/* Form Section (responsive on all screens) */}
         <div className="flex w-full lg:w-1/2 flex-col justify-center px-4 py-6 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div className="flex justify-center mt-10">
@@ -102,68 +108,57 @@ export default function Signin() {
             </div>
             <div className="mt-10">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Username Input */}
                 <div>
-                  <div className="mt-2">
-                    <input
-                      id="uname"
-                      name="uname"
-                      type="text"
-                      value={username}
-                      required
-                      autoComplete="uname"
-                      placeholder="Username"
-                      onChange={(e) => validateUsername(e.target.value)} // Validate on change
-                      className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
-                    />
-                  </div>
+                  <input
+                    id="uname"
+                    name="uname"
+                    type="text"
+                    value={username}
+                    required
+                    autoComplete="uname"
+                    placeholder="Username"
+                    onChange={(e) => validateUsername(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
+                  />
                   {usernameError && (
                     <p className="text-red-500 text-sm mt-2">{usernameError}</p>
                   )}
                 </div>
 
-                {/* Password Input */}
                 <div className="relative">
-                  <div className="mt-2">
-                    <input
-                      id="password"
-                      name="password"
-                      type={showPassword ? "text" : "password"} // Toggle password type
-                      value={password} // Controlled input for password
-                      onChange={handlePasswordChange} // Handle password change
-                      required
-                      autoComplete="current-password"
-                      placeholder="Password"
-                      className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
-                    />
-                    <span
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-                      onClick={togglePasswordVisibility}
-                    >
-                      {showPassword ? (
-                        <FaEyeSlash className="text-[#000000] h-5 w-5" />
-                      ) : (
-                        <FaEye className="text-[#000000] h-5 w-5" />
-                      )}
-                    </span>
-                  </div>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={handlePasswordChange}
+                    required
+                    autoComplete="current-password"
+                    placeholder="Password"
+                    className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795] placeholder:text-[#BFCCC9] focus:ring-2 focus:ring-inset focus:ring-[#00C795] sm:text-sm sm:leading-6"
+                  />
+                  <span
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
                   {passwordError && (
                     <p className="text-red-500 text-sm mt-2">{passwordError}</p>
                   )}
                 </div>
 
-                {/* Submit Button */}
-                <div>
-                  <button
-                    type="submit"
-                    className={`flex w-full justify-center rounded-md bg-[#00C795] hover:bg-[#007970] hover:scale-105 transition-all duration-300 transform px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#007970] ${
-                      formValid ? "" : "opacity-50 cursor-not-allowed"
-                    }`}
-                    disabled={!formValid} // Disable button if form is invalid
-                  >
-                    Sign in
-                  </button>
-                  <div className="flex items-center justify-center p-5 gap-2">
+                <button
+                  type="submit"
+                  className={`w-full rounded-md bg-[#00C795] hover:bg-[#007970] px-3 py-1.5 text-white ${
+                    formValid ? "" : "opacity-50 cursor-not-allowed"
+                  }`}
+                  disabled={!formValid}
+                >
+                  Sign in
+                </button>
+
+                <div className="flex items-center justify-center gap-2">
                     <p className="text-#4A5D58">Forgot password?</p>
                     <Link
                       to="/verify-login"
@@ -172,17 +167,16 @@ export default function Signin() {
                       Click here
                     </Link>
                   </div>
-                  <div className="flex flex-col sm:flex-row items-center justify-center pt-0 p-5 gap-2 text-center sm:text-left">
-  <p className="text-gray-600 text-sm">Need an Easy Loan Access Account?</p>
-  <button
-    onClick={handleSignupClick}
-    className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
-  >
-    SIGN UP
-  </button>
-</div>
 
-                </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-center sm:text-left">
+                    <p className="text-gray-600 text-sm">Need an Easy Loan Access Account?</p>
+                    <button
+                      onClick={handleSignupClick}
+                      className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
+                    >
+                      SIGN UP
+                    </button>
+                  </div>
               </form>
             </div>
 
@@ -198,7 +192,6 @@ export default function Signin() {
         </div>
       </div>
 
-      {/* Indemnity Modal */}
       <IndemnityModal isOpen={isModalOpen} onClose={handleModalClose} />
     </>
   );
