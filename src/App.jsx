@@ -13,7 +13,7 @@ import LoanTopup from "../src/pages/LoanTopup";
 import CustomerDetails from './pages/CustomerDetails';
 import LoanUnderwriter from './components/LoanUnderwriter';
 import Signup from './pages/Signup';
-import ProfileModal from './pages/ProfileUpdate';
+
 
 
 
@@ -23,7 +23,6 @@ const App = () => {
     <Router>
       <Routes>
       <Route path="/signup" element={<Signup />} />
-      <Route path="/profile" element={<ProfileModal />} />
         <Route path="/" element={<Signin />} />
         <Route path="/verify-login" element={<VerifyLogin />} />
         <Route path='/login' element={<Signin />} />

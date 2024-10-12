@@ -95,26 +95,27 @@ const ActivityTab = () => {
       {/* Add Comment Section */}
       <div className="mb-5">
         <h1 className='mb-4'>View Rule Breakdown</h1>
-        <button className="bg-white border px-8 py-2 rounded-md">Add Comment</button>
+        <button className="bg-white border-solid border-2 border-[#4A5D58] px-8 py-2 rounded-md">Add Comment</button>
       </div>
 
       {/* Activity List */}
-      <div className="activity-list space-y-4">
-        {filteredActivity.length > 0 ? (
-          filteredActivity.map((activity, index) => (
-            <div key={index} className="border-b py-4">
-              <div className="flex flex-col sm:flex-row justify-between">
-                <div className="text-sm text-gray-600">{activity.message}</div>
-                <div className="text-sm text-gray-500">
-                  Date: {activity.date} | Action by: {activity.actionBy} | Status: {activity.status}
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500">No matching records found.</p>
-        )}
+<div className="activity-list space-y-4">
+  {filteredActivity.length > 0 ? (
+    filteredActivity.slice(0, 4).map((activity, index) => (  // Limit to 4 comments
+      <div key={index} className="border-b py-4">
+        <div className="flex flex-col sm:flex-row justify-between">
+          <div className="text-sm text-gray-600">{activity.message}</div>
+        </div>
+        <div className="text-sm text-gray-500 mt-1">  {/* Add margin-top for spacing */}
+          Date: {activity.date} | Action by: {activity.actionBy} | Status: {activity.status}
+        </div>
       </div>
+    ))
+  ) : (
+    <p className="text-gray-500">No matching records found.</p>
+  )}
+</div>
+
     </div>
   );
 };

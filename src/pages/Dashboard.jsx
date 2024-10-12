@@ -36,7 +36,6 @@ import centricIcon from "../assets/centricIcon.png";
 import debtIcon from "../assets/debtIcon.png";
 import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
-import ProfileModal from "./ProfileUpdate";
 
 import { Link } from "react-router-dom";
 
@@ -134,15 +133,6 @@ export default function Dashboard() {
   const handleDateChange = (newDate) => {
     setDate(newDate);
     console.log("Selected date:", newDate);
-  };
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-
-  const handleProfileClick = () => {
-    setIsProfileModalOpen(true);
-  };
-
-  const closeProfileModal = () => {
-    setIsProfileModalOpen(false);
   };
 
   return (
@@ -390,8 +380,7 @@ export default function Dashboard() {
               </Menu>
             </div>
           </div>
-{/* ProfileModal integration */}
-<ProfileModal isOpen={isProfileModalOpen} onClose={closeProfileModal} />
+
           <div className="grid grid-cols-3 gap-5 bg-[#F3F4F6]">
             {/* Welcome Back Card */}
             <div className="flex gap-12 col-span-3 sm:col-span-2 text-white p-5 mt-10 ml-7 rounded-md bg-[#00C795]">

@@ -133,6 +133,21 @@ export default function SideNavLayout() {
     setDate(newDate);
     console.log("Selected date:", newDate);
   };
+  setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
+};
+
+const handleDateChange = (newDate) => {
+  setDate(newDate);
+  console.log("Selected date:", newDate);
+};
+
+const openProfileModal = () => {
+  setProfileModalOpen(true); // Open the ProfileModal when clicked
+};
+
+const closeProfileModal = () => {
+  setProfileModalOpen(false); // Close the ProfileModal
+};
 
   return (
     <>
@@ -380,7 +395,10 @@ export default function SideNavLayout() {
             </div>
           </div>
 
-          
+          {/* ProfileModal component */}
+          {profileModalOpen && (
+            <ProfileModal isOpen={profileModalOpen} onClose={closeProfileModal} />
+          )}
 
           {/* Help Widget Ends */}
         </div>

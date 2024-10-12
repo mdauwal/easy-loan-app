@@ -404,7 +404,7 @@ export default function CustomerDetails() {
                     <img
                       alt="Profile"
                       src={profile}
-                      className="h-8 w-8 rounded-full bg-gray-50"
+                      className="sm:display-block h-8 w-8 rounded-full bg-gray-50"
                     />
                     <ChevronDownIcon
                       aria-hidden="true"
@@ -478,20 +478,21 @@ export default function CustomerDetails() {
             <DeclineModal isOpen={isModalOpen} closeModal={closeModal} />
           </div>
           {/* Decline Loan and Complete Review Buttons */}
-          <div className="mt-5 mr-10 flex justify-end mb-10 p-1 space-x-3">
-            <button
-              onClick={handleDeclineLoan}
-              className="px-4 py-2 border border-[#FF0000] bg-[#FF0000] text-white rounded-md"
-            >
-              Decline Loan
-            </button>
-            <button
-              onClick={handleCompleteReview}
-              className="px-4 py-2 bg-[#00C795] text-white rounded-md"
-            >
-              Complete Review
-            </button>
-          </div>
+<div className="mt-5 mr-0 sm:mr-10 flex flex-col sm:flex-row justify-end mb-10 p-1 space-y-3 sm:space-y-0 sm:space-x-3">
+  <button
+    onClick={handleDeclineLoan}
+    className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 border border-[#FF0000] bg-[#FF0000] text-white rounded-md"
+  >
+    Decline Loan
+  </button>
+  <button
+    onClick={handleCompleteReview}
+    className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 bg-[#00C795] text-white rounded-md"
+  >
+    Complete Review
+  </button>
+</div>
+
           {/* Help Widget Ends */}
         </div>
       </div>
