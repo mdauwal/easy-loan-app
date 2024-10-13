@@ -158,25 +158,26 @@ export default function Signin() {
                   Sign in
                 </button>
 
-                <div className="flex items-center justify-center gap-2">
-                    <p className="text-#4A5D58">Forgot password?</p>
-                    <Link
-                      to="/verify-login"
-                      className="font-semibold text-[#00C795] hover:text-[#007970]"
-                    >
-                      Click here
-                    </Link>
-                  </div>
+                <div className="flex items-center justify-center gap-1">
+  <p className="text-[#4A5D58]">Forgot password?</p>
+  <Link
+    to="/verify-login"
+    className="font-semibold text-[#00C795] hover:text-[#007970]"
+  >
+    Click here
+  </Link>
+</div>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-center sm:text-left">
-                    <p className="text-gray-600 text-sm">Need an Easy Loan Access Account?</p>
-                    <button
-                      onClick={handleSignupClick}
-                      className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
-                    >
-                      SIGN UP
-                    </button>
-                  </div>
+<div className="flex flex-col mb-1 sm:flex-row items-center justify-center gap-1 text-center sm:text-left">
+  <p className="text-gray-600 text-sm">Need an Easy Loan Access Account?</p>
+  <button
+    onClick={handleSignupClick}
+    className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
+  >
+    SIGN UP
+  </button>
+</div>
+
               </form>
             </div>
 

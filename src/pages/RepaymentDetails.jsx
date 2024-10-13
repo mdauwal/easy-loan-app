@@ -12,7 +12,7 @@ export default function RepaymentDetails() {
 
   return (
     
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto text-sm">
         <table className="min-w-full table-auto border-collapse">
           <thead>
             <tr className="text-left border-b border-gray-200">

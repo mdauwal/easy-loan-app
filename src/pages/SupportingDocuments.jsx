@@ -23,7 +23,7 @@ const SupportingDocuments = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
       {/* Upload Document Section */}
       <div className="">
         <div className="text-center bg-[#f3f3f3] border rounded-lg p-4">

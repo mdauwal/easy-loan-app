@@ -23,11 +23,11 @@ const LoanDetailsTab = () => {
         return (
           <div className="space-y-2">
             {Object.entries(loanData.Information).map(([key, value]) => (
-              <div key={key} className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600 capitalize">
+              <div key={key} className="flex justify-between text-sm items-center py-2">
+                <span className="font-semibold text-gray-600 text-sm capitalize">
                   {key.replace(/([A-Z])/g, " $1")}:{" "}
                 </span>
-                <span className="text-gray-800">{value}</span>
+                <span className="text-gray-800 text-sm">{value}</span>
               </div>
             ))}
           </div>
@@ -36,7 +36,7 @@ const LoanDetailsTab = () => {
       case "CRC Nano Report":
         return (
           <div className="space-y-2">
-            <div className="flex justify-end">
+            <div className="flex justify-end text-sm">
               <CSVLink
                 data={[
                   [
@@ -55,7 +55,8 @@ const LoanDetailsTab = () => {
                   ],
                 ]}
                 filename="bank_statement.csv"
-                className="bg-white hover:bg-[#135D54] hover:text-white text-[#4A5D58] border-solid border-2 border-[#4A5D58] px-4 py-2 rounded-md flex items-center space-x-2"
+                className="bg-white text-sm hover:bg-[#135D54] hover:text-white text-[#4A5D58]
+                border-solid border-2 border-[#4A5D58] px-4 py-2 rounded-md flex items-center space-x-2"
               >
                 <span>Export CSV</span>
                 <svg
@@ -75,11 +76,11 @@ const LoanDetailsTab = () => {
             </div>
 
             {Object.entries(loanData.CRCNanoReport).map(([key, value]) => (
-              <div key={key} className="flex justify-between items-center py-2">
-                <span className="font-semibold text-gray-600 capitalize">
+              <div key={key} className="flex justify-between text-sm items-center py-2">
+                <span className="font-semibold text-gray-600 capitalize text-sm">
                   {key.replace(/([A-Z])/g, " $1")}:{" "}
                 </span>
-                <span className="text-gray-800">{value}</span>
+                <span className="text-gray-800 text-sm">{value}</span>
               </div>
             ))}
           </div>
@@ -88,8 +89,8 @@ const LoanDetailsTab = () => {
       case "Bank Statement":
         return (
           <div className="space-y-2">
-            <div className="flex justify-between items-center py-2">
-              <h3 className="font-semibold text-gray-600">Bank Statement</h3>
+            <div className="flex justify-between text-sm items-center py-2">
+              <h3 className="font-semibold text-gray-600 text-sm">Bank Statement</h3>
               <CSVLink
                 data={[
                   [
@@ -108,7 +109,7 @@ const LoanDetailsTab = () => {
                   ],
                 ]}
                 filename="bank_statement.csv"
-                className="bg-white hover:bg-[#135D54] hover:text-white text-[#4A5D58] border-solid border-2 border-[#4A5D58] px-4 py-2 rounded-md flex items-center space-x-2"
+                className="bg-white hover:bg-[#135D54] hover:text-white text-[#4A5D58] text-sm border-solid border-2 border-[#4A5D58] px-4 py-2 rounded-md flex items-center space-x-2"
                 onClick={toggleBankDetails} // Toggle the bank statement details
               >
                 <span>View Bank Statement</span>
@@ -131,11 +132,11 @@ const LoanDetailsTab = () => {
             {showBankDetails && (
               <div className="space-y-2 mt-4">
                 {Object.entries(loanData.BankStatement).map(([key, value]) => (
-                  <div key={key} className="flex justify-between items-center py-2">
-                    <span className="font-semibold text-gray-600 capitalize">
+                  <div key={key} className="flex justify-between text-sm items-center py-2">
+                    <span className="font-semibold text-gray-600 capitalize text-sm">
                       {key.replace(/([A-Z])/g, " $1")}:{" "}
                     </span>
-                    <span className="text-gray-800">{value}</span>
+                    <span className="text-gray-800 text-sm">{value}</span>
                   </div>
                 ))}
               </div>

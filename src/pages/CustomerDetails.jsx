@@ -34,6 +34,7 @@ import setupIcon from "../assets/setupIcon.png";
 import LoanDetailsTab from "./LoanDetailsTab";
 import { loanData } from "./data";
 import DeclineModal from "./DeclineModal";
+import UploadModal from "./UploadModal";
 import { Link } from "react-router-dom";
 
 const navigation = [
@@ -141,7 +142,9 @@ function classNames(...classes) {
 }
 
 export default function CustomerDetails() {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Fixed typo in modal state
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
+  const [isCompleteReviewModalOpen, setIsCompleteReviewModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const [activeTab, setActiveTab] = useState("Information"); // Default to 'Information' tab
   const [filteredData, setFilteredData] = useState(loanData); // State for filtered data
@@ -179,13 +182,20 @@ export default function CustomerDetails() {
     setIsModalOpen(false);
   };
 
-  const handleDeclineLoan = () => {
-    openModal(); // Open modal when decline is clicked
+   // Modal handling functions
+   const handleDeclineLoan = () => {
+    setIsDeclineModalOpen(true); // Open Decline modal
+  };
+  const handleCompleteReview = () => {
+    setIsCompleteReviewModalOpen(true); // Open Complete Review modal
+  };
+  const handleCloseDeclineModal = () => {
+    setIsDeclineModalOpen(false); // Close Decline modal
+  };
+  const handleCloseCompleteReviewModal = () => {
+    setIsCompleteReviewModalOpen(false); // Close Complete Review modal
   };
 
-  const handleCompleteReview = () => {
-    console.log("Review Completed");
-  };
 
   return (
     <>
@@ -474,8 +484,7 @@ export default function CustomerDetails() {
               <LoanDetailsTab details={loanData[activeTab]} />
             </div>
 
-            {/* Modal for Declining Loan */}
-            <DeclineModal isOpen={isModalOpen} closeModal={closeModal} />
+            
           </div>
           {/* Decline Loan and Complete Review Buttons */}
 <div className="mt-5 mr-0 sm:mr-10 flex flex-col sm:flex-row justify-end mb-10 p-1 space-y-3 sm:space-y-0 sm:space-x-3">
@@ -492,6 +501,9 @@ export default function CustomerDetails() {
     Complete Review
   </button>
 </div>
+{/* Render the modals conditionally */}
+<DeclineModal isOpen={isDeclineModalOpen} closeModal={handleCloseDeclineModal} />
+      <UploadModal isOpen={isCompleteReviewModalOpen} closeModal={handleCloseCompleteReviewModal} />
 
           {/* Help Widget Ends */}
         </div>
