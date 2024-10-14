@@ -1,7 +1,7 @@
 // UploadModal.jsx
-import React, { useState } from 'react';
-import { useSpring, animated } from '@react-spring/web';
-import SuccessModal from './SuccessModal';
+import React, { useState } from "react";
+import { useSpring, animated } from "@react-spring/web";
+import SuccessModal from "./SuccessModal";
 
 const UploadModal = ({ isOpen, onClose }) => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -9,7 +9,7 @@ const UploadModal = ({ isOpen, onClose }) => {
 
   const animation = useSpring({
     opacity: isOpen ? 1 : 0,
-    transform: isOpen ? 'translateY(0%)' : 'translateY(-30%)',
+    transform: isOpen ? "translateY(0%)" : "translateY(-30%)",
     config: { tension: 200, friction: 20 },
   });
 
@@ -20,10 +20,10 @@ const UploadModal = ({ isOpen, onClose }) => {
 
   const handleUpload = () => {
     if (file) {
-      console.log('Uploading:', file.name);
+      console.log("Uploading:", file.name);
       setIsSuccessModalOpen(true); // Open SuccessModal
     } else {
-      alert('Please select a file to upload.');
+      alert("Please select a file to upload.");
     }
   };
 
@@ -36,24 +36,25 @@ const UploadModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <animated.div 
-        style={animation} 
+      <animated.div
+        style={animation}
         className="bg-white rounded-lg shadow-lg w-[90%] max-w-sm sm:max-w-lg"
       >
         <div className="flex justify-between items-center px-4 py-2 border-b">
           <h2 className="text-lg font-bold">Upload Mono Bank Statement</h2>
           <button
-  className="absolute right-4 w-5 h-5 flex items-center justify-center text-[#111111] border 
+            className="absolute right-3 w-5 h-5 flex items-center justify-center text-[#111111] border 
              border-[#111111] hover:bg-[#135D54] hover:text-white bg-white rounded-full"
-  onClick={onClose} // Close UploadModal
->
-  &times;
-</button>
-
+            onClick={onClose} // Close UploadModal
+          >
+            &times;
+          </button>
         </div>
 
         <div className="p-6">
-          <p className="mb-4 text-gray-700">Kindly Upload Mono Bank Statement</p>
+          <p className="mb-4 text-gray-700">
+            Kindly Upload Mono Bank Statement
+          </p>
 
           <input
             type="file"
