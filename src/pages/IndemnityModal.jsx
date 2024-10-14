@@ -7,20 +7,25 @@ const IndemnityModal = ({ isOpen, onClose }) => {
     if (isOpen) {
       setShowModal(true); // Show the modal when it's opened
     } else {
-      setTimeout(() => setShowModal(false), 300); // Wait for animation to finish before removing modal
+      setTimeout(() => setShowModal(false), 300); // Wait for animation to finish
     }
   }, [isOpen]);
 
   if (!showModal) return null;
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+    <div
+      className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity 
+        ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+    >
       <div
-        className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-md transform transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-8'}`}
+        className={`bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full 
+          max-w-xs sm:max-w-md transform transition-transform duration-300 
+          ${isOpen ? 'translate-y-0' : 'translate-y-8'}`}
       >
-        <h2 className="text-2xl font-bold mb-4">Indemnity</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4">Indemnity</h2>
         <p className="text-sm text-gray-600 mb-4">
-          Adroit Loan Application is a Self Service and Self Enrolling Application.
+          Adroit Loan Application is a Self Service and Self Enrolling Application. 
           We will never request your login credentials (User ID/Password/PIN) for any purpose 
           and by any means (e.g., phone/e-mail) as they are strictly confidential. 
           Adroit shall not be liable for any loss or distress suffered by any user because of 
