@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; // Import toast notification
+import 'react-toastify/dist/ReactToastify.css'; // Toastify styles
 import logo from "../assets/logo.png";
 import lockIcon from "../assets/lockIcon.png";
 import { useSpring, animated } from '@react-spring/web';
@@ -43,8 +45,9 @@ export default function VerifyLogin() {
     } else if (codeExpired) {
       setErrorMessage("Code expired. Please request a new one.");
     } else {
-      // Submit logic: Redirect to login page when all validations are met
-      navigate("/login");
+      // All validations are met: Show success toast and redirect
+      toast.success("Verification successful!");
+      setTimeout(() => navigate("/login"), 2000); // Redirect after a short delay
     }
   };
 
@@ -134,6 +137,9 @@ export default function VerifyLogin() {
           </div>
         )}
       </animated.div>
+
+      {/* Toast notification container */}
+      <ToastContainer />
     </div>
   );
 }

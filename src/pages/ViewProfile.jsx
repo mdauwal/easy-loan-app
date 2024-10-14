@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import profile from "../assets/profile.png"
+import profile from "../assets/profile.png";
+
 
 const ViewProfile = () => {
   // Optional: If you want to pass user data through routing

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import profile from "../assets/profile.png"
 
 const ProfileModal = ({ isOpen, closeModal }) => {
-  const [username, setUsername] = useState("John Doe");
-  const [email, setEmail] = useState("johndoe@example.com");
+  const [username, setUsername] = useState("Adekunle Adebona");
+  const [email, setEmail] = useState("Adekunleadebona@creditwave.com");
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [message, setMessage] = useState("");
 
@@ -47,7 +48,7 @@ const ProfileModal = ({ isOpen, closeModal }) => {
             <div className="flex flex-col items-center mb-6">
               <div className="relative w-24 h-24 mb-4">
                 <img
-                  src={profilePhoto || "/default-profile.png"}
+                  src={profile}
                   alt="Profile"
                   className="w-full h-full rounded-full object-cover"
                 />

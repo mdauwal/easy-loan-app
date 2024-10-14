@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import { ToastContainer, toast } from 'react-toastify'; // Import Toast
-import 'react-toastify/dist/ReactToastify.css'; // Toast styles
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import logo from "../assets/logo.png";
 
 const Signup = () => {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track form submission state
 
   const handleChange = (e) => {
     setFormData({
@@ -20,42 +22,54 @@ const Signup = () => {
     });
   };
 
+  const validateEmail = (email) => {
+    // Basic email pattern validation
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate input fields
     const { username, email, password, confirmPassword } = formData;
+
+    // Check for empty fields
     if (!username || !email || !password || !confirmPassword) {
-      toast.error('All fields are required!', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-      });
+      toast.error('All fields are required!', { position: 'top-right', autoClose: 3000 });
       return;
     }
 
+    // Email format validation
+    if (!validateEmail(email)) {
+      toast.error('Invalid email format!', { position: 'top-right', autoClose: 3000 });
+      return;
+    }
+
+    // Password length validation
+    if (password.length < 6) {
+      toast.error('Password must be at least 6 characters long!', { position: 'top-right', autoClose: 3000 });
+      return;
+    }
+
+    // Confirm password validation
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match!', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-      });
+      toast.error('Passwords do not match!', { position: 'top-right', autoClose: 3000 });
       return;
     }
 
-    // On successful validation
-    toast.success('Sign-up successful!', {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 2000,
-    });
+    // If validation passes, disable the button and proceed
+    setIsSubmitting(true);
+    toast.success('Sign-up successful!', { position: 'top-right', autoClose: 2000 });
 
-    // Navigate to the sign-in page after the toast is displayed
+    // Simulate a small delay before navigating
     setTimeout(() => {
-      navigate('/login');
-    }, 2000); // 2-second delay to allow toast to show
+      setFormData({ username: '', email: '', password: '', confirmPassword: '' }); // Clear the form
+      navigate('/login'); // Navigate to the login page
+    }, 2000);
   };
 
   return (
     <>
-      <ToastContainer /> {/* Toast container */}
+      <ToastContainer />
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="w-full max-w-md bg-white p-5 rounded-lg shadow-md">
           <div className="flex justify-center mt-4 mb-5">
@@ -143,17 +157,17 @@ const Signup = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#00C795] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#008866] transition-colors"
+              className={`w-full bg-[#00C795] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#008866] transition-colors ${
+                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              disabled={isSubmitting}
             >
-              Sign Up
+              {isSubmitting ? 'Submitting...' : 'Sign Up'}
             </button>
 
             <p className="text-sm text-center text-gray-600 mt-4">
               Already have an account?{' '}
-              <Link
-                to="/login"
-                className="text-[#00C795] font-semibold hover:underline"
-              >
+              <Link to="/login" className="text-[#00C795] font-semibold hover:underline">
                 Log In
               </Link>
             </p>

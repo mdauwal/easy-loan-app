@@ -39,12 +39,12 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: home, current: true },
   {
     name: "Loan Application",
-    href: "#",
+    href: "/loan-app/customer",
     icon: loanIcon,
     current: false,
     hasDropdown: true,
     children: [
-      { name: "Customer", href: "/loan-app/customer" },
+      { name: "Customer", href: "/loan-app/customer", current: true },
       { name: "Declined", href: "/loan-app/declined" },
       { name: "Adjust", href: "/loan-app/adjust" },
       { name: "Loan Status", href: "/loan-app/status" },
@@ -359,10 +359,7 @@ export default function Decline() {
             {/* Right-aligned section */}
             <div className="ml-auto flex items-center gap-x-4 lg:gap-x-6">
               {/* Separator */}
-              <div
-                aria-hidden="true"
-                className="hidden lg:block lg:h-6 lg:w-px font-semibold lg:bg-[#ffffff]"
-              />
+              
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
@@ -384,7 +381,7 @@ export default function Decline() {
               <Menu as="div" className="relative">
                 <MenuButton className="-m-1.5 flex items-center p-1.5">
                   <span className="sr-only">Open user menu</span>
-                  <span className="hidden lg:flex lg:items-center">
+                  <span className="flex lg:flex lg:items-center">
                     <div
                       aria-hidden="true"
                       className="mr-4 text-sm leading-6 text-white"

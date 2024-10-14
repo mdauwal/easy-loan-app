@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import RequestDocumentModal from './RequestDocumentModal';
 
 const SupportingDocuments = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [selectedGuarantorForm, setSelectedGuarantorForm] = useState(null);
 
@@ -20,6 +22,10 @@ const SupportingDocuments = () => {
 
   const triggerFileInput = (id) => {
     document.getElementById(id).click();
+  };
+
+  const handleAddIconClick = () => {
+    setIsModalOpen(true); // Open the modal
   };
 
   return (
@@ -67,9 +73,15 @@ const SupportingDocuments = () => {
       {/* Request for New Document Section */}
       <div className="">
         <div className="text-center bg-[#f3f3f3] border rounded-lg p-4">
-          <FontAwesomeIcon icon={faPlusCircle} className="text-4xl text-[#4A5D58]" />
+          <FontAwesomeIcon icon={faPlusCircle} className="text-4xl text-[#4A5D58] rounded-full outline-dashed outline-2 outline-offset-2 " onClick={handleAddIconClick} />
           <p className="mt-2 text-[#4A5D58]">Request for New Document</p>
-        </div>
+        </div> 
+        {/* Modal Component */}
+      <RequestDocumentModal
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)} // Close the modal
+      />
+
       </div>
     </div>
   );

@@ -1,35 +1,35 @@
 .custom-calendar .react-calendar {
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
+    border: none !important; /* Remove default border */
+    box-shadow: none !important; /* Remove shadow */
+    outline: none !important; /* Remove outline */
     width: 100%; /* Ensure the calendar takes full width */
 }
 
 /* Add hover background color for calendar days */
 .custom-calendar .react-calendar__tile:hover {
-    background-color: #DDFFF7 !important;
-    border-radius: 50% !important;
+    background-color: #DDFFF7 !important; /* Light background on hover */
+    border-radius: 50% !important; /* Circular hover effect */
 }
 
 /* Custom styles for the selected day */
 .custom-calendar .react-calendar__tile--active {
-    background-color: #00C796 !important;
-    color: white !important;
-    border-radius: 50% !important;
+    background-color: #00C796 !important; /* Active day color */
+    color: white !important; /* Active day text color */
+    border-radius: 50% !important; /* Circular active effect */
 }
 
 /* Custom styles for the calendar title */
 .custom-calendar .react-calendar__navigation__label__labelText {
-    color: #00C796 !important;
+    color: #00C796 !important; /* Color for the title */
 }
 
 /* Hide the year navigation arrows */
 .custom-calendar .react-calendar__navigation__prev2-button,
 .custom-calendar .react-calendar__navigation__next2-button {
-    display: none !important;
+    display: none !important; /* Hide navigation arrows */
 }
 
 /* Adjust the padding of the calendar to give proper spacing */
 .custom-calendar {
-    padding: 10px;
+    padding: 10px; /* Padding around the calendar */
 }

@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import {
@@ -37,16 +39,17 @@ import DeclineModal from "./DeclineModal";
 import UploadModal from "./UploadModal";
 import { Link } from "react-router-dom";
 
+
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: home, current: true },
   {
     name: "Loan Application",
-    href: "#",
+    href: "/loan-app/customer",
     icon: loanIcon,
     current: false,
     hasDropdown: true,
     children: [
-      { name: "Customer", href: "/loan-app/customer" },
+      { name: "Customer", href: "/loan-app/customer", current: true },
       { name: "Declined", href: "/loan-app/declined" },
       { name: "Adjust", href: "/loan-app/adjust" },
       { name: "Loan Status", href: "/loan-app/status" },
@@ -142,7 +145,8 @@ function classNames(...classes) {
 }
 
 export default function CustomerDetails() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
   const [isCompleteReviewModalOpen, setIsCompleteReviewModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
@@ -374,10 +378,7 @@ export default function CustomerDetails() {
             {/* Right-aligned section */}
             <div className="ml-auto flex items-center gap-x-4 lg:gap-x-6">
               {/* Separator */}
-              <div
-                aria-hidden="true"
-                className="hidden lg:block lg:h-6 lg:w-px font-semibold lg:bg-[#ffffff]"
-              />
+              
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
@@ -399,18 +400,19 @@ export default function CustomerDetails() {
               <Menu as="div" className="relative">
                 <MenuButton className="-m-1.5 flex items-center p-1.5">
                   <span className="sr-only">Open user menu</span>
-                  <span className="hidden lg:flex lg:items-center">
-                    <div
-                      aria-hidden="true"
-                      className="mr-4 text-sm leading-6 text-white"
-                    >
-                      <p className="text-sm font-medium font-semibold text-right">
-                        Adekunle Adebona
-                      </p>
-                      <p className="text-xs">
-                        Adekunle.adebona@creditwaveng.com
-                      </p>
-                    </div>
+                  <span className="flex items-center lg:flex lg:items-center">
+                  <div 
+  aria-hidden="true" 
+  className="hidden sm:block mr-4 text-sm leading-6 text-white"
+>
+  <p className="text-sm font-medium font-semibold text-right">
+    Adekunle Adebona
+  </p>
+  <p className="text-xs">
+    Adekunle.adebona@creditwaveng.com
+  </p>
+</div>
+
                     <img
                       alt="Profile"
                       src={profile}
@@ -490,20 +492,21 @@ export default function CustomerDetails() {
 <div className="mt-5 mr-0 sm:mr-10 flex flex-col sm:flex-row justify-end mb-10 p-1 space-y-3 sm:space-y-0 sm:space-x-3">
   <button
     onClick={handleDeclineLoan}
-    className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 border border-[#FF0000] bg-[#FF0000] text-white rounded-md"
+    className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 outline outline-1 outline-offset-0 font-semibold border border-[#FF0000] bg-[#Ffffff] text-[#FF0000] rounded-md"
   >
     Decline Loan
   </button>
-  <button
-    onClick={handleCompleteReview}
-    className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 bg-[#00C795] text-white rounded-md"
-  >
-    Complete Review
-  </button>
+  <div>
+    <button className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 bg-[#00C795] text-white rounded-md" onClick={() => setIsUploadModalOpen(true)}>Complete Review</button>
+    <UploadModal
+      isOpen={isUploadModalOpen}
+      onClose={() => setIsUploadModalOpen(false)}
+    />
+  </div>
 </div>
 {/* Render the modals conditionally */}
 <DeclineModal isOpen={isDeclineModalOpen} closeModal={handleCloseDeclineModal} />
-      <UploadModal isOpen={isCompleteReviewModalOpen} closeModal={handleCloseCompleteReviewModal} />
+      {/* <UploadModal isOpen={isCompleteReviewModalOpen} closeModal={handleCloseCompleteReviewModal} /> */}
 
           {/* Help Widget Ends */}
         </div>

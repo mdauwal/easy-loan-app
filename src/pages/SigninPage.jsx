@@ -34,8 +34,8 @@ export default function Signin() {
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
-    if (value.length < 8) {
-      setPasswordError("Password must be at least 8 characters.");
+    if (value.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
     } else {
       setPasswordError("");
     }

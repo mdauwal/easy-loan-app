@@ -13,6 +13,7 @@ import LoanTopup from "../src/pages/LoanTopup";
 import CustomerDetails from './pages/CustomerDetails';
 import LoanUnderwriter from './components/LoanUnderwriter';
 import Signup from './pages/Signup';
+import ViewProfile from './pages/ViewProfile';
 
 
 
@@ -36,6 +37,7 @@ const App = () => {
         <Route path='/loan-app/top-up' element={<LoanTopup />} />
         <Route path="/customer-details/:id" element={<CustomerDetails />} />
         <Route path='/underwriter/review' element={<LoanUnderwriter />} />
+        <Route path='/view-profile' element={<ViewProfile />} />
       </Routes>
     </Router>
   )

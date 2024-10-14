@@ -1,6 +1,7 @@
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import "./Calendar.css"
+import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import {
   Dialog,
@@ -12,18 +13,14 @@ import {
   MenuItems,
   TransitionChild,
 } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
-  Bars3Icon,
-  Cog6ToothIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { ChevronDownIcon, ChevronUpIcon, BellIcon } from "@heroicons/react/24/solid";
+  ChevronDownIcon,
+  ChevronUpIcon,
+  BellIcon,
+} from "@heroicons/react/24/solid";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.png";
-import pana from "../assets/pana.png";
-import help from "../assets/help.png";
-import recoverIcon from "../assets/recoverIcon.png";
-import signIcon from "../assets/signIcon.png";
 import loanIcon from "../assets/loanIcon.png";
 import home from "../assets/home.png";
 import underwriterIcon from "../assets/underwriterIcon.png";
@@ -36,64 +33,94 @@ import centricIcon from "../assets/centricIcon.png";
 import debtIcon from "../assets/debtIcon.png";
 import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
-
+import LoanDetailsTab from "./LoanDetailsTab";
+import { loanData } from "./data";
+import DeclineModal from "./DeclineModal";
+import UploadModal from "./UploadModal";
 import { Link } from "react-router-dom";
+
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: home, current: true },
-  { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
+  {
+    name: "Loan Application",
+    href: "/loan-app/customer",
+    icon: loanIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Customer", href: "/loan-app/customer" },
+      { name: "Customer", href: "/loan-app/customer", current: true },
       { name: "Declined", href: "/loan-app/declined" },
       { name: "Adjust", href: "/loan-app/adjust" },
       { name: "Loan Status", href: "/loan-app/status" },
       { name: "Loan Restructuring", href: "/loan-app/restructure" },
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
-   },
-  { name: "Loan Underwriting", href: "#", icon: underwriterIcon, current: false, hasDropdown: true,
+  },
+  {
+    name: "Loan Underwriting",
+    href: "#",
+    icon: underwriterIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Review", href: "/underwriter/review" },
-      { name: "Approval", href: "/underwriter/approval" },
-      { name: "Disbursement", href: "/underwriter/disbursement" },
-      { name: "Loan Re-assignment", href: "/underwriter/re-assignment" },
+      { name: "Review", href: "#" },
+      { name: "Approval", href: "#" },
+      { name: "Disbursement", href: "#" },
+      { name: "Loan Re-assignment", href: "#" },
     ],
-   },
-  { name: "Collection", href: "#", icon: collectIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Collection",
+    href: "#",
+    icon: collectIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Repayment", href: "/collection/monthly" },
-      { name: "Summary", href: "/collection/annual" },
-      { name: "Report", href: "/collection/report" },
+      { name: "Repayment", href: "#" },
+      { name: "Summary", href: "#" },
+      { name: "Report", href: "#" },
     ],
-   },
-  { name: "Staff", href: "#", icon: staffIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Staff",
+    href: "#",
+    icon: staffIcon,
+    current: false,
+    hasDropdown: true,
+    children: [{ name: "Loan", href: "#" }],
+  },
+  {
+    name: "CRM",
+    href: "#",
+    icon: crmIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Loan", href: "/staff/loan" },
+      { name: "Add Client", href: "#" },
+      { name: "Clients", href: "#" },
+      { name: "Notification", href: "#" },
+      { name: "Customer Account Tier", href: "#" },
     ],
-   },
-  { name: "CRM", href: "#", icon: crmIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Administration",
+    href: "#",
+    icon: adminIcon,
+    current: false,
+    hasDropdown: true,
     children: [
-      { name: "Add Client", href: "/crm/add-client" },
-      { name: "Clients", href: "/crm/add-client" },
-      { name: "Notification", href: "/crm/notification" },
-      { name: "Customer Account Tier", href: "/crm/account-tier" },
+      { name: "Product", href: "#" },
+      { name: "Underwriter", href: "#" },
+      { name: "Staff", href: "#" },
+      { name: "Loan Tenor", href: "#" },
+      { name: "Report", href: "#" },
     ],
-   },
-  { name: "Administration", href: "#", icon: adminIcon, current: false, hasDropdown: true, 
-    children: [
-      { name: "Product", href: "/admin/product" },
-      { name: "Underwriter", href: "/admin/underwriter" },
-      { name: "Staff", href: "/admin/staff" },
-      { name: "Loan Tenor", href: "/admin/loan-tenor" },
-      { name: "Report", href: "/admin/report" },
-    ],
-   },
-  { name: "Debt Management", href: "debt", icon: debtIcon, current: false },
-  { name: "Bridge Loan", href: "bridge-loan", icon: bridgeIcon, current: false },
-  { name: "Customer Centric", href: "customer", icon: centricIcon, current: false },
-  { name: "General Setup", href: "setup", icon: setupIcon, current: false },
-
-  // Example of dropdown with nested menu items (e.g., for "Report")
+  },
+  { name: "Debt Management", href: "#", icon: debtIcon, current: false },
+  { name: "Bridge Loan", href: "#", icon: bridgeIcon, current: false },
+  { name: "Customer Centric", href: "#", icon: centricIcon, current: false },
+  { name: "General Setup", href: "#", icon: setupIcon, current: false },
   {
     name: "Report",
     icon: reportIcon,
@@ -101,8 +128,8 @@ const navigation = [
     current: false,
     hasDropdown: true,
     children: [
-      { name: "Monthly Report", href: "/report/monthly" },
-      { name: "Annual Report", href: "/report/annual" },
+      { name: "Monthly Report", href: "#" },
+      { name: "Annual Report", href: "#" },
     ],
   },
 ];
@@ -117,26 +144,68 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
 export default function LoanTopup() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
+  const [isCompleteReviewModalOpen, setIsCompleteReviewModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+  const [activeTab, setActiveTab] = useState("Information"); // Default to 'Information' tab
+  const [filteredData, setFilteredData] = useState(loanData); // State for filtered data
+
+  const handleSearchChange = (e) => {
+    const searchTerm = e.target.value.toLowerCase(); // Case-insensitive search
+    setSearchTerm(searchTerm);
+
+    // Filter based on Application ID, first name, last name, email, and amount
+    const filtered = loanData.filter(
+      (loan) =>
+        loan.ref.toLowerCase().includes(searchTerm) || // Application ID
+        loan.firstName.toLowerCase().includes(searchTerm) || // First name
+        loan.lastName.toLowerCase().includes(searchTerm) || // Last name
+        loan.email.toLowerCase().includes(searchTerm) || // Email
+        loan.amount.toLowerCase().includes(searchTerm) // Amount
+    );
+
+    setFilteredData(filtered); // Update the filtered data
+  };
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [date, setDate] = useState(new Date()); // State for interactive calendar
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
 
   const toggleDropdown = (name) => {
     setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
   };
 
-
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    console.log("Selected date:", newDate);
+  const openModal = () => {
+    setIsModalOpen(true);
   };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+   // Modal handling functions
+   const handleDeclineLoan = () => {
+    setIsDeclineModalOpen(true); // Open Decline modal
+  };
+  const handleCompleteReview = () => {
+    setIsCompleteReviewModalOpen(true); // Open Complete Review modal
+  };
+  const handleCloseDeclineModal = () => {
+    setIsDeclineModalOpen(false); // Close Decline modal
+  };
+  const handleCloseCompleteReviewModal = () => {
+    setIsCompleteReviewModalOpen(false); // Close Complete Review modal
+  };
+
 
   return (
     <>
       <div>
-      <Dialog
+        {/* Sidebar and Header */}
+        <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
           className="relative z-50 lg:hidden"
@@ -224,7 +293,6 @@ export default function LoanTopup() {
                         ))}
                       </ul>
                     </li>
-          
                   </ul>
                 </nav>
               </div>
@@ -291,8 +359,6 @@ export default function LoanTopup() {
                     ))}
                   </ul>
                 </li>
-
-
               </ul>
             </nav>
           </div>
@@ -312,10 +378,7 @@ export default function LoanTopup() {
             {/* Right-aligned section */}
             <div className="ml-auto flex items-center gap-x-4 lg:gap-x-6">
               {/* Separator */}
-              <div
-                aria-hidden="true"
-                className="hidden lg:block lg:h-6 lg:w-px font-semibold lg:bg-[#ffffff]"
-              />
+              
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
@@ -337,22 +400,23 @@ export default function LoanTopup() {
               <Menu as="div" className="relative">
                 <MenuButton className="-m-1.5 flex items-center p-1.5">
                   <span className="sr-only">Open user menu</span>
-                  <span className="hidden lg:flex lg:items-center">
-                    <div
-                      aria-hidden="true"
-                      className="mr-4 text-sm leading-6 text-white"
-                    >
-                      <p className="text-sm font-medium font-semibold text-right">
-                        Adekunle Adebona
-                      </p>
-                      <p className="text-xs">
-                        Adekunle.adebona@creditwaveng.com
-                      </p>
-                    </div>
+                  <span className="flex items-center lg:flex lg:items-center">
+                  <div 
+  aria-hidden="true" 
+  className="hidden sm:block mr-4 text-sm leading-6 text-white"
+>
+  <p className="text-sm font-medium font-semibold text-right">
+    Adekunle Adebona
+  </p>
+  <p className="text-xs">
+    Adekunle.adebona@creditwaveng.com
+  </p>
+</div>
+
                     <img
                       alt="Profile"
                       src={profile}
-                      className="h-8 w-8 rounded-full bg-gray-50"
+                      className="sm:display-block h-8 w-8 rounded-full bg-gray-50"
                     />
                     <ChevronDownIcon
                       aria-hidden="true"
@@ -379,7 +443,70 @@ export default function LoanTopup() {
             </div>
           </div>
 
-          
+          {/* Table Details */}
+          <div className="mt-10 z-10 bg-[#ffffff] ml-4 mr-4 lg:ml-10 lg:mr-10 p-5 rounded-md shadow-lg">
+            <div className="flex items-center mb-4">
+              <div className="relative w-full sm:w-1/2 md:w-1/3">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="w-full p-2 pr-10 pl-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
+                />
+                <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            {/* Render filtered results */}
+            <div>
+              {filteredData.length > 0 &&
+                filteredData.map((loan) => (
+                  <LoanDetailsTab key={loan.id} details={loan} />
+                ))}
+            </div>
+
+            {/* Conditionally rendered details */}
+            <div>
+              <LoanDetailsTab details={loanData[activeTab]} />
+            </div>
+
+            
+          </div>
+          {/* Decline Loan and Complete Review Buttons */}
+<div className="mt-5 mr-0 sm:mr-10 flex flex-col sm:flex-row justify-end mb-10 p-1 space-y-3 sm:space-y-0 sm:space-x-3">
+  <button
+    onClick={handleDeclineLoan}
+    className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 outline outline-1 outline-offset-0 font-semibold border border-[#FF0000] bg-[#Ffffff] text-[#FF0000] rounded-md"
+  >
+    Decline Loan
+  </button>
+  <div>
+    <button className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 bg-[#00C795] text-white rounded-md" onClick={() => setIsUploadModalOpen(true)}>Complete Review</button>
+    <UploadModal
+      isOpen={isUploadModalOpen}
+      onClose={() => setIsUploadModalOpen(false)}
+    />
+  </div>
+</div>
+{/* Render the modals conditionally */}
+<DeclineModal isOpen={isDeclineModalOpen} closeModal={handleCloseDeclineModal} />
+      {/* <UploadModal isOpen={isCompleteReviewModalOpen} closeModal={handleCloseCompleteReviewModal} /> */}
 
           {/* Help Widget Ends */}
         </div>
