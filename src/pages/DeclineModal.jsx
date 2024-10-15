@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const DeclineModal = ({ isOpen, closeModal }) => {
   const handleDeclineClick = (e) => {
     e.preventDefault(); // Prevent form submission (if applicable)
-    toast.error("The loan has been declined.");
+    toast.success("The loan has been declined successfully.");
     closeModal(); // Close the modal after the decline action
   };
 

@@ -426,6 +426,13 @@ export default function Decline() {
           <div className="flex-grow p-4">
             {/* Sidebar and Top Bar Code */}
             <div className="w-full h-auto">
+            <div className="flex gap-2 items-center mt-10 ml-5">
+                <p className="text-[#4A5D58]">Loan Application</p>
+                <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
+                <Link to="#" className="text-[#4A5D58] hover:underline">
+                  Decline
+                </Link>
+              </div>
               
 
               <div className="p-6 bg-white">

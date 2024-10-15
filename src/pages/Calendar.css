@@ -1,35 +1,110 @@
+/* Ensure the calendar container takes full width and is aligned nicely */
+.custom-calendar {
+    width: 100%; 
+    padding: 20px;
+    background: linear-gradient(to right, #f0f0f0, #e0fff7); /* Subtle gradient background */
+    border-radius: 15px; /* Rounded corners for the container */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    overflow: hidden; /* To clip animations within the bounds */
+    transition: all 0.3s ease-in-out;
+}
+
+.custom-calendar:hover {
+    transform: scale(1.02); /* Slight scaling on hover */
+}
+
+/* Remove default border, shadow, and set full width for the calendar */
 .custom-calendar .react-calendar {
-    border: none !important; /* Remove default border */
-    box-shadow: none !important; /* Remove shadow */
-    outline: none !important; /* Remove outline */
-    width: 100%; /* Ensure the calendar takes full width */
+    border: none !important;
+    box-shadow: none !important;
+    width: 100%;
+    outline: none !important;
 }
 
-/* Add hover background color for calendar days */
+/* Style the day tiles */
+.custom-calendar .react-calendar__tile {
+    transition: transform 0.6s ease-in-out, background-color 0.3s ease; /* Smooth animation */
+    transform-style: preserve-3d; /* Allow flipping effect */
+    position: relative; /* Required for flip animation */
+    backface-visibility: hidden; /* Hide back when not flipped */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Flip animation on hover */
 .custom-calendar .react-calendar__tile:hover {
-    background-color: #DDFFF7 !important; /* Light background on hover */
-    border-radius: 50% !important; /* Circular hover effect */
+    background-color: #ddfff7 !important;
+    border-radius: 50%;
+    transform: rotateY(180deg); /* Flipping animation */
 }
 
-/* Custom styles for the selected day */
+/* Back side (hovered view) */
+.custom-calendar .react-calendar__tile::after {
+    content: "🎉"; /* Add a fun icon on the back side */
+    display: block;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #00c796;
+    background-color: #ddfff7;
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden; /* Hide when not flipped */
+    transform: rotateY(180deg); /* Align it to show on hover */
+}
+
+/* Styles for the active (selected) day */
 .custom-calendar .react-calendar__tile--active {
-    background-color: #00C796 !important; /* Active day color */
-    color: white !important; /* Active day text color */
-    border-radius: 50% !important; /* Circular active effect */
+    background: linear-gradient(to right, #00c796, #009978) !important;
+    color: white !important;
+    border-radius: 50%;
+    transform: scale(1.1); /* Slight scaling for emphasis */
 }
 
-/* Custom styles for the calendar title */
+/* Title styles with a more modern font */
 .custom-calendar .react-calendar__navigation__label__labelText {
-    color: #00C796 !important; /* Color for the title */
+    color: #00c796 !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Hide the year navigation arrows */
+/* Remove year navigation arrows */
 .custom-calendar .react-calendar__navigation__prev2-button,
 .custom-calendar .react-calendar__navigation__next2-button {
-    display: none !important; /* Hide navigation arrows */
+    display: none !important;
 }
 
-/* Adjust the padding of the calendar to give proper spacing */
-.custom-calendar {
-    padding: 10px; /* Padding around the calendar */
+/* Navigation arrows (month navigation) */
+.custom-calendar .react-calendar__navigation__arrow {
+    background-color: #00c796;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.custom-calendar .react-calendar__navigation__arrow:hover {
+    background-color: #009978; /* Darker green on hover */
+}
+
+/* Responsive padding for smaller screens */
+@media (max-width: 600px) {
+    .custom-calendar {
+        padding: 10px;
+    }
 }

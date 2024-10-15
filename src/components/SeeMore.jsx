@@ -412,7 +412,7 @@ export default function SeeMorePage() {
           </div>
 
           <div className="max-w-6xl mx-auto p-5">
-      <h1 className="text-3xl font-bold text-[#384642] mb-8">Loan Applications</h1>
+      <h3 className="text-2xl font-bold text-[#384642] mb-8">Loan Applications</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {loanApplications.map((loan) => (
           <div key={loan.id} className="bg-white shadow-lg rounded-lg p-6">

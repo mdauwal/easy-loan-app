@@ -130,7 +130,7 @@ export default function ViewProfile() {
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleDeleteConfirm = () => {
-    toast.success("Account deleted successfully!", { position: "top-right" });
+    toast.warning("Sorry! This account cannot be deleted.", { position: "top-right" });
     setIsDeleteModalOpen(false); // Close the modal after confirmation
   };
 
@@ -151,7 +151,6 @@ export default function ViewProfile() {
 
   
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [date, setDate] = useState(new Date()); // State for interactive calendar
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
 
   const toggleDropdown = (name) => {
@@ -473,7 +472,7 @@ export default function ViewProfile() {
             <div className="mt-6">
               <h3 className="text-lg font-semibold text-gray-800">Recent Activities</h3>
               <ul className="mt-2 space-y-2">
-                <li className="text-sm text-gray-600">Logged in from Lagos, Nigeria on {new Date().toLocaleDateString()}</li>
+                <li className="text-sm text-gray-600">Logged in from Kaduna, Nigeria on {new Date().toLocaleDateString()}</li>
                 <li className="text-sm text-gray-600">Updated loan application status</li>
                 <li className="text-sm text-gray-600">Joined a CRM session</li>
               </ul>

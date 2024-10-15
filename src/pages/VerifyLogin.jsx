@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify"; // Import toast notification
-import 'react-toastify/dist/ReactToastify.css'; // Toastify styles
+import "react-toastify/dist/ReactToastify.css"; // Toastify styles
 import logo from "../assets/logo.png";
 import lockIcon from "../assets/lockIcon.png";
-import { useSpring, animated } from '@react-spring/web';
+import { useSpring, animated } from "@react-spring/web";
 
 export default function VerifyLogin() {
   const [verificationCode, setVerificationCode] = useState("");
@@ -17,7 +17,7 @@ export default function VerifyLogin() {
   // Modal animation
   const modalAnimation = useSpring({
     opacity: isOpen ? 1 : 0,
-    transform: isOpen ? 'scale(1)' : 'scale(0.95)',
+    transform: isOpen ? "scale(1)" : "scale(0.95)",
     config: { duration: 300 },
   });
 
@@ -74,69 +74,70 @@ export default function VerifyLogin() {
       </div>
 
       <animated.div
-  style={modalAnimation}
-  className="relative z-10 bg-white p-6 sm:p-8 rounded-md shadow-lg w-full 
+        style={modalAnimation}
+        className="relative z-10 bg-white p-6 sm:p-8 rounded-md shadow-lg w-full 
              max-w-xs sm:max-w-md lg:max-w-lg transform transition-transform 
              duration-300"
->
-  <div className="flex justify-center mb-5">
-    <img
-      src={lockIcon}
-      alt="lock"
-      className="bg-[#C1FFF0] border rounded-lg px-4 py-3"
-    />
-  </div>
-
-  <h1 className="text-center text-xl sm:text-2xl font-bold text-[#135D54] mb-4">
-    Verify Login
-  </h1>
-  <p className="text-center text-sm mb-6">
-    Enter the six (6) digit verification code sent to
-    <br />
-    <strong>+234913****01</strong> and{" "}
-    <strong>A****@creditwave.ng</strong>
-  </p>
-
-  <form onSubmit={handleSubmit} className="space-y-4">
-    <div className="relative flex items-center border rounded-md p-2">
-      <input
-        type="text"
-        name="verification-code"
-        value={verificationCode}
-        onChange={(e) => setVerificationCode(e.target.value)}
-        placeholder="Verification code"
-        disabled={codeExpired}
-        className={`w-full border-0 focus:outline-none focus:ring-0 text-black 
-                    placeholder:text-gray-400 ${codeExpired ? "text-red-500" : ""}`}
-      />
-      <span className="ml-4 text-[#00C795] flex-shrink-0 text-sm">
-        {codeExpired ? "Code Expired" : `${timer}:00`}
-      </span>
-    </div>
-
-    <button
-      type="submit"
-      className="w-full bg-[#00C795] text-white py-2 rounded-md hover:scale-105 
-                 transition-all duration-300"
-      disabled={codeExpired}
-    >
-      Submit
-    </button>
-  </form>
-
-  {codeExpired && (
-    <div className="mt-4 text-center">
-      <Link
-        to="#"
-        className="text-sm text-[#00C795] hover:underline"
-        onClick={handleResendCode}
       >
-        Resend Verification Code
-      </Link>
-    </div>
-  )}
-</animated.div>
+        <div className="flex justify-center mb-5">
+          <img
+            src={lockIcon}
+            alt="lock"
+            className="bg-[#C1FFF0] border rounded-lg px-4 py-3"
+          />
+        </div>
 
+        <h1 className="text-center text-xl sm:text-2xl font-bold text-[#135D54] mb-4">
+          Verify Login
+        </h1>
+        <p className="text-center text-sm mb-6">
+          Enter the six (6) digit verification code sent to
+          <br />
+          <strong>+234913****01</strong> and{" "}
+          <strong>A****@creditwave.ng</strong>
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="relative flex items-center border rounded-md p-2">
+            <input
+              type="text"
+              name="verification-code"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              placeholder="Verification code"
+              disabled={codeExpired}
+              className={`w-full border-0 focus:outline-none focus:ring-0 text-black 
+                    placeholder:text-gray-400 ${
+                      codeExpired ? "text-red-500" : ""
+                    }`}
+            />
+            <span className="ml-4 text-[#00C795] flex-shrink-0 text-sm">
+              {codeExpired ? "Code Expired" : `${timer}:00`}
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-[#00C795] text-white py-2 rounded-md hover:scale-105 
+                 transition-all duration-300"
+            disabled={codeExpired}
+          >
+            Submit
+          </button>
+        </form>
+
+        {codeExpired && (
+          <div className="mt-4 text-center">
+            <Link
+              to="#"
+              className="text-sm text-[#00C795] hover:underline"
+              onClick={handleResendCode}
+            >
+              Resend Verification Code
+            </Link>
+          </div>
+        )}
+      </animated.div>
 
       {/* Toast notification container */}
       <ToastContainer />

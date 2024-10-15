@@ -431,7 +431,7 @@ export default function Adjust() {
                 <p className="text-[#4A5D58]">Loan Application</p>
                 <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
                 <Link to="#" className="text-[#4A5D58] hover:underline">
-                  Customer
+                  Adjust
                 </Link>
               </div>
 

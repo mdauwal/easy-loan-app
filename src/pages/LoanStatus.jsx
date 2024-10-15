@@ -442,11 +442,21 @@ export default function LoanStatus() {
               </Menu>
             </div>
           </div>
+          
 
           {/* Table Details */}
           <div className="mt-10 z-10 bg-[#ffffff] ml-4 mr-4 lg:ml-10 lg:mr-10 p-5 rounded-md shadow-lg">
+          <div className="flex gap-2 items-center mt-10 ml-5">
+                <p className="text-[#4A5D58]">Loan Application</p>
+                <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
+                <Link to="#" className="text-[#4A5D58] hover:underline">
+                  Adjust
+                </Link>
+              </div>
             <div className="flex items-center mb-4">
+              
               <div className="relative w-full sm:w-1/2 md:w-1/3">
+              
                 <input
                   type="text"
                   placeholder="Search..."

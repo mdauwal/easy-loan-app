@@ -11,11 +11,11 @@ import LoanRestructure from "../src/pages/LoanRestructuring";
 import LoanStatus from "../src/pages/LoanRestructuring";
 import LoanTopup from "../src/pages/LoanTopup";
 import CustomerDetails from './pages/CustomerDetails';
-import LoanUnderwriter from './components/LoanUnderwriter';
 import Signup from './pages/Signup';
 import ViewProfile from './pages/ViewProfile';
 import SeeMorePage from './components/SeeMore';
 import ContactSupport from './pages/ContactSupport';
+import LoanUnderwriting from './components/LoanUnderwriting';
 
 
 
@@ -38,10 +38,10 @@ const App = () => {
         <Route path='/loan-app/status' element={<LoanStatus />} /> 
         <Route path='/loan-app/top-up' element={<LoanTopup />} />
         <Route path="/customer-details/:id" element={<CustomerDetails />} />
-        <Route path='/underwriter/review' element={<LoanUnderwriter />} />
         <Route path='/view-profile' element={<ViewProfile />} />
         <Route path='/see-more' element={<SeeMorePage />} />
         <Route path='/contact-support' element={<ContactSupport />} />
+        <Route path='/underwriter/review' element={<LoanUnderwriting />} />
       </Routes>
     </Router>
   )
