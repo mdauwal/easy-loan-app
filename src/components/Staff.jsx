@@ -1,53 +1,55 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import profile from "../assets/profile.png"
+import { useEffect, useState } from 'react';
 
-const ViewProfile = () => {
-  // Optional: If you want to pass user data through routing
-  const location = useLocation();
-  const { user } = location.state || { user: null };
+const SeeMorePage = () => {
+  const [loanDetails, setLoanDetails] = useState(null);
+
+  useEffect(() => {
+    // Fetch loan details from the Mockaroo API
+    fetch('https://my.api.mockaroo.com/loan_data1.json?key=a4e044f0&format=json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const loanData = data[0]; // Assuming the API returns an array
+        setLoanDetails(loanData);
+      })
+      .catch(error => console.error("Error fetching loan details:", error));
+  }, []);
+
+  if (!loanDetails) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="max-w-4xl mx-auto p-5">
-      <h1 className="text-2xl font-bold text-[#384642] mb-4">User Profile</h1>
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        {/* Profile Picture */}
-        <div className="flex items-center mb-5">
-          <img
-            src={profile} // Use a default image if none is provided
-            alt="Profile"
-            className="h-24 w-24 rounded-full bg-gray-200 mr-4"
-          />
-          <div>
-            <h2 className="text-xl font-semibold text-[#384642]">
-              Adekunle Adebona
-            </h2>
-            <p className="text-sm text-gray-600">
-              Adekunleadebona@creditwave.com
-            </p>
-          </div>
+    <div className="p-4 bg-white shadow-md rounded-lg">
+      <h2 className="text-2xl font-semibold mb-4">{loanDetails.loan_name}</h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="bg-gray-50 p-4 rounded-lg shadow">
+          <h3 className="text-xl font-semibold mb-2">Loan Details</h3>
+          <p><strong>Amount:</strong> ${loanDetails.amount}</p>
+          <p><strong>Status:</strong> {loanDetails.status}</p>
+          <p><strong>Type:</strong> {loanDetails.loan_type}</p>
+          <p><strong>Application Date:</strong> {loanDetails.application_date}</p>
+          <p><strong>Due Date:</strong> {loanDetails.due_date}</p>
         </div>
 
-        {/* Additional Profile Information */}
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold text-[#384642] mb-2">About</h3>
-          <p className="text-gray-700">
-            Passionate UI/UX Designer
-          </p>
+        <div className="bg-gray-50 p-4 rounded-lg shadow">
+          <h3 className="text-xl font-semibold mb-2">Applicant Information</h3>
+          <p><strong>Name:</strong> {loanDetails.applicant_name}</p>
+          <p><strong>Email:</strong> {loanDetails.applicant_email}</p>
         </div>
+      </div>
 
-        {/* Actions */}
-        <div className="mt-6">
-          <button className="bg-[#00C796] text-white font-semibold px-4 py-2 rounded mr-3 hover:bg-[#009a7a]">
-            Edit Profile
-          </button>
-          <button className="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600">
-            Delete Account
-          </button>
-        </div>
+      <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow">
+        <h3 className="text-xl font-semibold mb-2">Additional Information</h3>
+        <p>{loanDetails.additional_notes || "No additional notes available."}</p>
       </div>
     </div>
   );
 };
 
-export default ViewProfile;
+export default SeeMorePage;

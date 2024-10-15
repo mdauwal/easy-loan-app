@@ -1,95 +1,88 @@
-<Dialog
-          open={sidebarOpen}
-          onClose={setSidebarOpen}
-          className="relative z-50 lg:hidden"
-        >
-          <DialogBackdrop
-            transition
-            className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
-          />
+import { useEffect, useState } from 'react';
 
-          <div className="fixed inset-0 flex">
-            <DialogPanel
-              transition
-              className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-[closed]:-translate-x-full"
-            >
-              <TransitionChild>
-                <div className="absolute left-full top-0 flex w-16 justify-center pt-5 duration-300 ease-in-out data-[closed]:opacity-0">
-                  <button
-                    type="button"
-                    onClick={() => setSidebarOpen(false)}
-                    className="-m-2.5 p-2.5"
-                  >
-                    <span className="sr-only">Close sidebar</span>
-                    <XMarkIcon
-                      aria-hidden="true"
-                      className="h-6 w-6 text-white"
-                    />
-                  </button>
-                </div>
-              </TransitionChild>
-              {/* Sidebar component, swap this element with another sidebar if you like */}
-              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-                <div className="flex h-16 shrink-0 items-center">
-                  <img alt="our brand" src={logo} className="h-8 w-auto" />
-                </div>
-                <nav className="flex flex-1 flex-col">
-                  <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                    <li>
-                      <ul role="list" className="-mx-2 space-y-1">
-                        {navigation.map((item) => (
-                          <li key={item.name}>
-                            <Link
-                              to={item.href}
-                              className={classNames(
-                                item.current
-                                  ? "bg-[#EAFFFA] text-[#072320]"
-                                  : "text-[#072320] hover:bg-[#EAFFFA] hover:text-[#135D54]",
-                                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                              )}
-                            >
-                              <img
-                                src={item.icon}
-                                alt={item.name} // Optional: For accessibility
-                                className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
-                              />
-                              {item.name}
-                              {item.hasDropdown && (
-                                <button
-                                  type="button"
-                                  onClick={() => toggleDropdown(item.name)}
-                                >
-                                  {openDropdown === item.name ? (
-                                    <ChevronUpIcon className="w-5 h-5" />
-                                  ) : (
-                                    <ChevronDownIcon className="w-5 h-5" />
-                                  )}
-                                </button>
-                              )}
-                            </Link>
-                            {/* Render dropdown if it's open */}
-                            {item.hasDropdown && openDropdown === item.name && (
-                              <ul className="pl-8 mt-2 space-y-1">
-                                {item.children.map((subItem) => (
-                                  <li key={subItem.name}>
-                                    <Link
-                                      to={subItem.href}
-                                      className="flex items-center p-2 space-x-3 rounded-md text-gray-600 hover:bg-gray-100"
-                                    >
-                                      {subItem.name}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-          
-                  </ul>
-                </nav>
-              </div>
-            </DialogPanel>
-          </div>
-        </Dialog>
+const SeeMorePage = () => {
+  const [loanDetailsList, setLoanDetailsList] = useState([]); // Store all loan records
+  const [currentIndex, setCurrentIndex] = useState(0); // Track the current loan being viewed
+
+  useEffect(() => {
+    // Fetch loan details from the Mockaroo API
+    fetch('https://my.api.mockaroo.com/loan_data1.json?key=a4e044f0&format=json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        setLoanDetailsList(data); // Store the fetched records
+      })
+      .catch(error => console.error('Error fetching loan details:', error));
+  }, []);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex < loanDetailsList.length - 1 ? prevIndex + 1 : 0
+    );
+  };
+
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : loanDetailsList.length - 1
+    );
+  };
+
+  if (loanDetailsList.length === 0) {
+    return <div>Loading...</div>; // Show loading state while fetching data
+  }
+
+  const loanDetails = loanDetailsList[currentIndex]; // Get the current loan details
+
+  return (
+    <div className="p-4 bg-white shadow-md rounded-lg max-w-2xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-4">{loanDetails.loan_name}</h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="bg-gray-50 p-4 rounded-lg shadow">
+          <h3 className="text-xl font-semibold mb-2">Loan Details</h3>
+          <p><strong>Amount:</strong> ${loanDetails.amount}</p>
+          <p><strong>Status:</strong> {loanDetails.status}</p>
+          <p><strong>Type:</strong> {loanDetails.loan_type}</p>
+          <p><strong>Application Date:</strong> {loanDetails.application_date}</p>
+          <p><strong>Due Date:</strong> {loanDetails.due_date}</p>
+        </div>
+
+        <div className="bg-gray-50 p-4 rounded-lg shadow">
+          <h3 className="text-xl font-semibold mb-2">Applicant Information</h3>
+          <p><strong>Name:</strong> {loanDetails.applicant_name}</p>
+          <p><strong>Email:</strong> {loanDetails.applicant_email}</p>
+        </div>
+      </div>
+
+      <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow">
+        <h3 className="text-xl font-semibold mb-2">Additional Information</h3>
+        <p>{loanDetails.additional_notes || 'No additional notes available.'}</p>
+      </div>
+
+      {/* Navigation Buttons */}
+      <div className="mt-6 flex justify-between items-center">
+        <button
+          onClick={handlePrevious}
+          className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 transition"
+        >
+          Previous
+        </button>
+        <span className="text-gray-600">
+          {currentIndex + 1} / {loanDetailsList.length}
+        </span>
+        <button
+          onClick={handleNext}
+          className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 transition"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default SeeMorePage;

@@ -14,6 +14,8 @@ import CustomerDetails from './pages/CustomerDetails';
 import LoanUnderwriter from './components/LoanUnderwriter';
 import Signup from './pages/Signup';
 import ViewProfile from './pages/ViewProfile';
+import SeeMorePage from './components/SeeMore';
+import ContactSupport from './pages/ContactSupport';
 
 
 
@@ -38,6 +40,8 @@ const App = () => {
         <Route path="/customer-details/:id" element={<CustomerDetails />} />
         <Route path='/underwriter/review' element={<LoanUnderwriter />} />
         <Route path='/view-profile' element={<ViewProfile />} />
+        <Route path='/see-more' element={<SeeMorePage />} />
+        <Route path='/contact-support' element={<ContactSupport />} />
       </Routes>
     </Router>
   )

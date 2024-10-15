@@ -1,7 +1,8 @@
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import "./Calendar.css"
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Importing toastify CSS
+
 import {
   Dialog,
   DialogBackdrop,
@@ -36,6 +37,7 @@ import centricIcon from "../assets/centricIcon.png";
 import debtIcon from "../assets/debtIcon.png";
 import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
+import ProfileModal from "../pages/ProfileModal";
 
 import { Link } from "react-router-dom";
 
@@ -119,7 +121,30 @@ function classNames(...classes) {
 
 const currentTime = new Date().toLocaleString();
 
-export default function SideNavLayout() {
+export default function ViewProfile() {
+  const location = useLocation();
+  const { user } = location.state || { user: null };
+
+   // State to manage modal visibility
+   const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+   // Function to handle toast notification on delete
+   const handleDelete = () => {
+     toast.error("Account Deleted Successfully", {
+       position: "top-right",
+       autoClose: 3000,
+       hideProgressBar: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+     });
+   };
+ 
+   // Function to handle profile modal open
+   const handleViewProfile = () => {
+     setIsModalOpen(true);
+   };
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [date, setDate] = useState(new Date()); // State for interactive calendar
   const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
@@ -133,21 +158,8 @@ export default function SideNavLayout() {
     setDate(newDate);
     console.log("Selected date:", newDate);
   };
-  setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
-};
 
-const handleDateChange = (newDate) => {
-  setDate(newDate);
-  console.log("Selected date:", newDate);
-};
-
-const openProfileModal = () => {
-  setProfileModalOpen(true); // Open the ProfileModal when clicked
-};
-
-const closeProfileModal = () => {
-  setProfileModalOpen(false); // Close the ProfileModal
-};
+  
 
   return (
     <>
@@ -395,10 +407,56 @@ const closeProfileModal = () => {
             </div>
           </div>
 
-          {/* ProfileModal component */}
-          {profileModalOpen && (
-            <ProfileModal isOpen={profileModalOpen} onClose={closeProfileModal} />
-          )}
+          <div className="max-w-4xl mx-auto p-5">
+      <ToastContainer /> {/* This is required to show toast notifications */}
+      
+      <h1 className="text-2xl font-bold text-[#384642] mb-4">User Profile</h1>
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        {/* Profile Picture */}
+        <div className="flex items-center mb-5">
+          <img
+            src={profile} // Use a default image if none is provided
+            alt="Profile"
+            className="h-24 w-24 rounded-full bg-gray-200 mr-4"
+          />
+          <div>
+            <h2 className="text-xl font-semibold text-[#384642]">
+              {user ? user.name : 'Adekunle Adebona'}
+            </h2>
+            <p className="text-sm text-gray-600">
+              {user ? user.email : 'Adekunleadebona@creditwave.com'}
+            </p>
+          </div>
+        </div>
+
+        {/* Additional Profile Information */}
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold text-[#384642] mb-2">About</h3>
+          <p className="text-gray-700">
+            {user ? user.about : 'Passionate UI/UX Designer'}
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="mt-6">
+          <button
+            className="bg-[#00C796] text-white font-semibold px-4 py-2 rounded mr-3 hover:bg-[#009a7a]"
+            onClick={handleViewProfile} // Open Profile Modal on click
+          >
+            View Profile
+          </button>
+          <button
+            className="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600"
+            onClick={handleDelete} // Trigger toast on delete
+          >
+            Delete Account
+          </button>
+        </div>
+      </div>
+
+      {/* Profile Modal */}
+      {isModalOpen && <ProfileModal onClose={() => setIsModalOpen(false)} />}
+    </div>
 
           {/* Help Widget Ends */}
         </div>

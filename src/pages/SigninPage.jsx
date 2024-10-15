@@ -169,7 +169,7 @@ export default function Signin() {
 </div>
 
 <div className="flex flex-col mb-1 sm:flex-row items-center justify-center gap-1 text-center sm:text-left">
-  <p className="text-gray-600 text-sm">Need an Easy Loan Access Account?</p>
+  <p className="text-gray-600 text-sm">New Admin Wants to Create an Account?</p>
   <button
     onClick={handleSignupClick}
     className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
