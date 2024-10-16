@@ -42,6 +42,7 @@ const App = () => {
         <Route path='/see-more' element={<SeeMorePage />} />
         <Route path='/contact-support' element={<ContactSupport />} />
         <Route path='/underwriter/review' element={<LoanUnderwriting />} />
+        <Route path='/underwriter/approval' element={<LoanUnderwriting />} />
       </Routes>
     </Router>
   )

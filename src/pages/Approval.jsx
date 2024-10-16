@@ -33,7 +33,7 @@ import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: home, current: true },
-  { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
+  { name: "Loan Application", href: "/loan-app/customer", icon: loanIcon, current: false, hasDropdown: true,
     children: [
       { name: "Customer", href: "/loan-app/customer" },
       { name: "Declined", href: "/loan-app/declined" },
@@ -43,7 +43,7 @@ const navigation = [
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
    },
-  { name: "Loan Underwriting", href: "#", icon: underwriterIcon, current: false, hasDropdown: true,
+  { name: "Loan Underwriting", href: "/underwriter/review", icon: underwriterIcon, current: false, hasDropdown: true,
     children: [
       { name: "Review", href: "/underwriter/review" },
       { name: "Approval", href: "/underwriter/approval" },
