@@ -49,7 +49,7 @@ const navigation = [
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
    },
-  { name: "Loan Underwriting", href: "#", icon: underwriterIcon, current: false, hasDropdown: true,
+  { name: "Loan Underwriting", href: "/underwriter/review", icon: underwriterIcon, current: false, hasDropdown: true,
     children: [
       { name: "Review", href: "/underwriter/review" },
       { name: "Approval", href: "/underwriter/approval" },

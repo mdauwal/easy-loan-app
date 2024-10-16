@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -34,12 +34,15 @@ import debtIcon from "../assets/debtIcon.png";
 import reportIcon from "../assets/reportIcon.png";
 import setupIcon from "../assets/setupIcon.png";
 import { FilterModal } from "../features/FilterModal";
+import Pagination from "./Pagination";
+import loanData from "../pages/LoanData";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: home, current: true },
-  { name: "Loan Application", href: "#", icon: loanIcon, current: false, hasDropdown: true,
+  { name: "Dashboard", href: "/dashboard", icon: home, current: true },
+  { name: "Loan Application", href: "/loan-app/customer", icon: loanIcon, current: false, hasDropdown: true,
     children: [
       { name: "Customer", href: "/loan-app/customer" },
       { name: "Declined", href: "/loan-app/declined" },
@@ -49,7 +52,7 @@ const navigation = [
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
    },
-  { name: "Loan Underwriting", href: "#", icon: underwriterIcon, current: false, hasDropdown: true,
+  { name: "Loan Underwriting", href: "/underwriter/review", icon: underwriterIcon, current: false, hasDropdown: true,
     children: [
       { name: "Review", href: "/underwriter/review" },
       { name: "Approval", href: "/underwriter/approval" },
@@ -119,22 +122,37 @@ const currentTime = new Date().toLocaleString();
 
 export default function LoanUnderwriting() {
     const [search, setSearch] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [reassignedCount, setReassignedCount] = useState(2); // This is for the notification badge
-    
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [date, setDate] = useState(new Date()); // State for interactive calendar
-  const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reassignedCount, setReassignedCount] = useState(2); // This is for the notification badge
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const itemsPerPage = 10; // Number of items to display per page
 
-  const toggleDropdown = (name) => {
-    setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
+  // Generate 100 items for the table
+  const generateData = () => {
+    const items = [];
+    for (let i = 1; i <= 100; i++) {
+      items.push({
+        id: i,
+        ref: `Ref12345${i}`,
+        amount: `N${(Math.random() * 500000).toFixed(0)}`, // Random loan amounts up to N500,000
+        email: `adebona${i}@credit.com`,
+        firstName: "Adekunle",
+        middleName: "Samuel",
+        lastName: "Adebona",
+        date: `2023-${Math.floor(Math.random() * 12 + 1)
+          .toString()
+          .padStart(2, "0")}-${Math.floor(Math.random() * 28 + 1)
+          .toString()
+          .padStart(2, "0")}`, // Random date in 2023
+      });
+    }
+    return items;
   };
 
+  const [currentItems, setCurrentItems] = useState(generateData());
 
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    console.log("Selected date:", newDate);
-  };
+  // Store paginated items for the current page
+  const [paginatedItems, setPaginatedItems] = useState([]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -147,6 +165,30 @@ export default function LoanUnderwriting() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  // Update paginatedItems whenever the page changes or the items are modified
+  useEffect(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const itemsForCurrentPage = currentItems.slice(indexOfFirstItem, indexOfLastItem);
+    
+    setPaginatedItems(itemsForCurrentPage); // Update paginated items based on the current page
+  }, [currentPage, currentItems]); // Re-run whenever currentPage or currentItems changes
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber); // Update the current page
+  };
+
+    
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [openDropdown, setOpenDropdown] = useState(null); // State for dropdown
+
+  const toggleDropdown = (name) => {
+    setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
+  };
+
+
 
   return (
     <>
@@ -394,119 +436,116 @@ export default function LoanUnderwriting() {
             </div>
           </div>
 
+          <div className="flex gap-2 items-center mt-10 ml-5">
+                <p className="text-[#4A5D58]">Loan Underwiting</p>
+                <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
+                <Link to="#" className="text-[#4A5D58] hover:underline">
+                  Review
+                </Link>
+              </div>
+
           <div className="p-6 bg-white">
-      {/* Search and Filter Section */}
-      <div className="flex justify-between mb-10">
-        <div className="w-1/3 relative">
-          {/* Input Field */}
-          <input
-            type="text"
-            placeholder="Search"
-            value={search}
-            onChange={handleSearchChange}
-            className="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
+  {/* Search and Filter Section */}
+  <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+    {/* Search Input Section */}
+    <div className="w-full md:w-1/3 relative">
+      <input
+        type="text"
+        placeholder="Search"
+        value={search}
+        onChange={handleSearchChange}
+        className="w-full p-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C795]"
+      />
+      <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
           />
-
-          {/* Search Icon */}
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
-              />
-            </svg>
-          </div>
-        </div>
-
-        {/* Buttons Section */}
-        <div className="flex space-x-4">
-          {/* View Re-assigned Loan Button */}
-          <button className="relative bg-[#FF5A5A] hover:bg-red-600 text-white px-4 py-2 rounded-md">
-            View Re-assigned Loan
-            {reassignedCount > 0 && (
-              <span className="absolute top-0 right-0 inline-block w-5 h-5 bg-green-500 text-white text-xs font-bold rounded-full">
-                {reassignedCount}
-              </span>
-            )}
-          </button>
-
-          {/* Filter Button */}
-          <button
-            onClick={openModal}
-            className="bg-[#00C795] hover:bg-[#135D54] text-white px-4 py-2 rounded-md"
-          >
-            Filter
-          </button>
-
-          {/* Filter Modal */}
-          <FilterModal isOpen={isModalOpen} closeModal={closeModal} />
-        </div>
-      </div>
-
-      {/* Table */}
-      <div className="overflow-x-auto text-xs mb-5 rounded-md shadow-lg flex-grow p-4">
-        <table className="w-full">
-          <thead className="bg-[#Ffffff] text-[#4A5D58]">
-            <tr>
-              <th className="px-4 py-2 border text-left">S/N</th>
-              <th className="px-4 py-2 border text-left">Customer Ref.</th>
-              <th className="px-4 py-2 border text-left">Loan Amount</th>
-              <th className="px-4 py-2 border text-left">Email Address</th>
-              <th className="px-4 py-2 border text-left">First Name</th>
-              <th className="px-4 py-2 border text-left">Middle Name</th>
-              <th className="px-4 py-2 border text-left">Last Name</th>
-              <th className="px-4 py-2 border text-left">Application Date</th>
-              <th className="px-4 py-2 border text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((row, index) => (
-              <tr key={row.id}>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {index + 1}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {row.ref}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {row.amount}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {row.email}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {row.firstName}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {row.middleName}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {row.lastName}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  {row.date}
-                </td>
-                <td className="px-4 py-2 border border-gray-200 text-[#4A5D58]">
-                  <Link to={`/customer-details/${row.id}`}>
-                    <button className="text-[#007BEC] hover:underline">
-                      View
-                    </button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        </svg>
       </div>
     </div>
+
+    {/* Buttons Section */}
+    <div className="flex flex-col sm:flex-row items-center gap-4">
+      {/* View Re-assigned Loan Button */}
+      <button className="relative bg-[#FF0909] text-sm hover:bg-red-600 text-[#ffffff] px-6 py-2 rounded-md w-full sm:w-auto text-center">
+        View Re-assigned Loan
+        {reassignedCount > 0 && (
+          <span className="absolute top-0 right-0 inline-block w-5 h-5 bg-[#ffffff] text-black text-xs font-bold rounded-full">
+            {reassignedCount}
+          </span>
+        )}
+      </button>
+
+      {/* Filter Button */}
+      <button
+        onClick={openModal}
+        className="bg-[#00C795] hover:bg-[#135D54] text-white px-6 py-2 rounded-md w-full sm:w-auto"
+      >
+        Filter
+      </button>
+
+      {/* Filter Modal */}
+      <FilterModal isOpen={isModalOpen} closeModal={closeModal} />
+    </div>
+  </div>
+
+  {/* Table Section */}
+  <div className="overflow-x-auto text-xs mb-5 rounded-md shadow-lg flex-grow p-4">
+    <table className="w-full">
+      <thead className="bg-[#FFFFFF] text-[#4A5D58]">
+        <tr>
+          <th className="px-4 py-2 border text-left">S/N</th>
+          <th className="px-4 py-2 border text-left">Customer Ref.</th>
+          <th className="px-4 py-2 border text-left">Loan Amount</th>
+          <th className="px-4 py-2 border text-left">Email Address</th>
+          <th className="px-4 py-2 border text-left">First Name</th>
+          <th className="px-4 py-2 border text-left">Middle Name</th>
+          <th className="px-4 py-2 border text-left">Last Name</th>
+          <th className="px-4 py-2 border text-left">Application Date</th>
+          <th className="px-4 py-2 border text-left">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {paginatedItems.map((row, index) => (
+          <tr key={row.id} className="hover:bg-gray-100">
+            <td className="px-4 py-2 border border-gray-200">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+            <td className="px-4 py-2 border border-gray-200">{row.ref}</td>
+            <td className="px-4 py-2 border border-gray-200">{row.amount}</td>
+            <td className="px-4 py-2 border border-gray-200">{row.email}</td>
+            <td className="px-4 py-2 border border-gray-200">{row.firstName}</td>
+            <td className="px-4 py-2 border border-gray-200">{row.middleName}</td>
+            <td className="px-4 py-2 border border-gray-200">{row.lastName}</td>
+            <td className="px-4 py-2 border border-gray-200">{row.date}</td>
+            <td className="px-4 py-2 border border-gray-200">
+              <Link to={`/customer-details/${row.id}`}>
+                <button className="text-[#007BEC] hover:underline">View</button>
+              </Link>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {/* Pagination */}
+  <Pagination
+    currentPage={currentPage}
+    totalItems={loanData.length}
+    itemsPerPage={itemsPerPage}
+    onPageChange={handlePageChange}
+  />
+</div>
+
 
           {/* Help Widget Ends */}
         </div>
