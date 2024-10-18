@@ -1,6 +1,6 @@
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react"; 
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import IndemnityModal from "./IndemnityModal";
 import { ToastContainer, toast } from "react-toastify";
@@ -92,7 +92,7 @@ export default function Signin() {
           <div className="absolute inset-0 h-full w-full flex flex-col justify-start mt-20 p-10">
             <h1 className="text-white text-5xl font-bold mb-3">Adroit</h1>
             <p className="text-white mt-4 text-justify">
-            We evaluate and monitor the non-performing loan accounts and
+              We evaluate and monitor the non-performing loan accounts and
               implement a recovery action plan to achieve timely and maximum
               recovery at a minimal cost and appropriate turn-around time
               through acceptable common practices aligned with legal framework
@@ -159,25 +159,26 @@ export default function Signin() {
                 </button>
 
                 <div className="flex items-center justify-center gap-1">
-  <p className="text-[#4A5D58]">Forgot password?</p>
-  <Link
-    to="/verify-login"
-    className="font-semibold text-[#00C795] hover:text-[#007970]"
-  >
-    Click here
-  </Link>
-</div>
+                  <p className="text-[#4A5D58]">Forgot password?</p>
+                  <Link
+                    to="/verify-login"
+                    className="font-semibold text-[#00C795] hover:text-[#007970]"
+                  >
+                    Click here
+                  </Link>
+                </div>
 
-<div className="flex flex-col mb-1 sm:flex-row items-center justify-center gap-1 text-center sm:text-left">
-  <p className="text-gray-600 text-sm">New Admin Wants to Create an Account?</p>
-  <button
-    onClick={handleSignupClick}
-    className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
-  >
-    SIGN UP
-  </button>
-</div>
-
+                <div className="flex flex-col mb-1 sm:flex-row items-center justify-center gap-1 text-center sm:text-left">
+                  <p className="text-gray-600 text-sm">
+                    New Admin Wants to Create an Account?
+                  </p>
+                  <button
+                    onClick={handleSignupClick}
+                    className="font-semibold text-[#00C795] hover:text-[#007970] ml-0 sm:ml-2"
+                  >
+                    SIGN UP
+                  </button>
+                </div>
               </form>
             </div>
 

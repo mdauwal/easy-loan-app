@@ -26,15 +26,15 @@ const App = () => {
   return (
     
     <Router>
-      <ProfileProvider>
+      {/* <ProfileProvider>
       <Dashboard />
-    </ProfileProvider>
+    </ProfileProvider> */}
       <Routes>
       <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Signin />} />
         <Route path="/verify-login" element={<VerifyLogin />} />
         <Route path='/login' element={<Signin />} />
-        {/* <Route path='/dashboard' element={<Dashboard />} /> */}
+        <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/bridge-loan' element={<BridgeLoan />} />
         <Route path='/loan-app/customer' element={<LoanApplication />} /> 
         <Route path='/loan-app/declined' element={<Declined />} /> 
