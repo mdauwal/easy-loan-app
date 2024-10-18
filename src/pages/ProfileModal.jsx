@@ -1,17 +1,12 @@
 import React, { useState } from "react";
+import { useProfile } from "../context/ProfileContext"; // Import useProfile from context
 import profile from "../assets/profile.png"
 
 const ProfileModal = ({ isOpen, closeModal }) => {
+  const { profilePhoto, handlePhotoUpload } = useProfile(); // Get profilePhoto and handlePhotoUpload from context
   const [username, setUsername] = useState("Adekunle Adebona");
   const [email, setEmail] = useState("Adekunleadebona@creditwave.com");
-  const [profilePhoto, setProfilePhoto] = useState(null);
   const [message, setMessage] = useState("");
-
-  // Handle image upload
-  const handlePhotoUpload = (e) => {
-    const file = e.target.files[0];
-    setProfilePhoto(URL.createObjectURL(file));
-  };
 
   // Handle submit
   const handleSubmit = () => {
@@ -36,11 +31,11 @@ const ProfileModal = ({ isOpen, closeModal }) => {
       {isOpen && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-          onClick={handleBackdropClick} // Close modal when clicking on backdrop
+          onClick={handleBackdropClick}
         >
           <div
             className="bg-white rounded-lg shadow-lg p-6 w-[95%] max-w-lg"
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal content
+            onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
 
@@ -48,7 +43,7 @@ const ProfileModal = ({ isOpen, closeModal }) => {
             <div className="flex flex-col items-center mb-6">
               <div className="relative w-24 h-24 mb-4">
                 <img
-                  src={profile}
+                  src={profilePhoto || profile} // Use global state here
                   alt="Profile"
                   className="w-full h-full rounded-full object-cover"
                 />
@@ -57,12 +52,16 @@ const ProfileModal = ({ isOpen, closeModal }) => {
                   📷
                 </label>
               </div>
-              <p className="text-gray-600 text-sm">Click on the icon to upload a new photo</p>
+              <p className="text-gray-600 text-sm">
+                Click on the icon to upload a new photo
+              </p>
             </div>
 
             {/* Username field */}
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-600 mb-1">Username</label>
+              <label className="block text-sm font-semibold text-gray-600 mb-1">
+                Username
+              </label>
               <input
                 type="text"
                 value={username}
@@ -73,7 +72,9 @@ const ProfileModal = ({ isOpen, closeModal }) => {
 
             {/* Email field */}
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-600 mb-1">Email</label>
+              <label className="block text-sm font-semibold text-gray-600 mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 value={email}
@@ -85,7 +86,7 @@ const ProfileModal = ({ isOpen, closeModal }) => {
             {/* Buttons */}
             <div className="flex justify-between">
               <button
-                onClick={closeModal} // Close the modal on clicking "Cancel"
+                onClick={closeModal}
                 className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
               >
                 Cancel
@@ -100,7 +101,9 @@ const ProfileModal = ({ isOpen, closeModal }) => {
 
             {/* Success message */}
             {message && (
-              <p className="text-green-600 mt-4 text-center font-semibold">{message}</p>
+              <p className="text-green-600 mt-4 text-center font-semibold">
+                {message}
+              </p>
             )}
           </div>
         </div>

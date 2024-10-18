@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import {
@@ -38,7 +38,6 @@ import { loanData } from "./data";
 import DeclineModal from "./DeclineModal";
 import UploadModal from "./UploadModal";
 import { Link } from "react-router-dom";
-
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: home, current: true },
@@ -148,7 +147,8 @@ export default function LoanTopup() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
-  const [isCompleteReviewModalOpen, setIsCompleteReviewModalOpen] = useState(false);
+  const [isCompleteReviewModalOpen, setIsCompleteReviewModalOpen] =
+    useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const [activeTab, setActiveTab] = useState("Information"); // Default to 'Information' tab
   const [filteredData, setFilteredData] = useState(loanData); // State for filtered data
@@ -186,8 +186,8 @@ export default function LoanTopup() {
     setIsModalOpen(false);
   };
 
-   // Modal handling functions
-   const handleDeclineLoan = () => {
+  // Modal handling functions
+  const handleDeclineLoan = () => {
     setIsDeclineModalOpen(true); // Open Decline modal
   };
   const handleCompleteReview = () => {
@@ -199,7 +199,6 @@ export default function LoanTopup() {
   const handleCloseCompleteReviewModal = () => {
     setIsCompleteReviewModalOpen(false); // Close Complete Review modal
   };
-
 
   return (
     <>
@@ -257,14 +256,16 @@ export default function LoanTopup() {
                             >
                               <img
                                 src={item.icon}
-                                alt={item.name} // Optional: For accessibility
-                                className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                                alt={item.name}
+                                className="h-6 w-6 shrink-0"
                               />
-                              {item.name}
+                              <span className="flex-1">{item.name}</span>{" "}
+                              {/* Pushes icon slightly right */}
                               {item.hasDropdown && (
                                 <button
                                   type="button"
                                   onClick={() => toggleDropdown(item.name)}
+                                  className="ml-4 flex items-center" // Adds space between title and icon
                                 >
                                   {openDropdown === item.name ? (
                                     <ChevronUpIcon className="w-5 h-5" />
@@ -274,7 +275,7 @@ export default function LoanTopup() {
                                 </button>
                               )}
                             </Link>
-                            {/* Render dropdown if it's open */}
+
                             {item.hasDropdown && openDropdown === item.name && (
                               <ul className="pl-8 mt-2 space-y-1">
                                 {item.children.map((subItem) => (
@@ -324,14 +325,16 @@ export default function LoanTopup() {
                         >
                           <img
                             src={item.icon}
-                            alt={item.name} // Optional: For accessibility
-                            className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                            alt={item.name}
+                            className="h-6 w-6 shrink-0"
                           />
-                          {item.name}
+                          <span className="flex-1">{item.name}</span>{" "}
+                          {/* Pushes icon slightly right */}
                           {item.hasDropdown && (
                             <button
                               type="button"
                               onClick={() => toggleDropdown(item.name)}
+                              className="ml-4 flex items-center" // Adds space between title and icon
                             >
                               {openDropdown === item.name ? (
                                 <ChevronUpIcon className="w-5 h-5" />
@@ -341,6 +344,7 @@ export default function LoanTopup() {
                             </button>
                           )}
                         </Link>
+
                         {item.hasDropdown && openDropdown === item.name && (
                           <ul className="pl-8 mt-2 space-y-1">
                             {item.children.map((subItem) => (
@@ -378,7 +382,7 @@ export default function LoanTopup() {
             {/* Right-aligned section */}
             <div className="ml-auto flex items-center gap-x-4 lg:gap-x-6">
               {/* Separator */}
-              
+
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
@@ -401,17 +405,17 @@ export default function LoanTopup() {
                 <MenuButton className="-m-1.5 flex items-center p-1.5">
                   <span className="sr-only">Open user menu</span>
                   <span className="flex items-center lg:flex lg:items-center">
-                  <div 
-  aria-hidden="true" 
-  className="hidden sm:block mr-4 text-sm leading-6 text-white"
->
-  <p className="text-sm font-medium font-semibold text-right">
-    Adekunle Adebona
-  </p>
-  <p className="text-xs">
-    Adekunle.adebona@creditwaveng.com
-  </p>
-</div>
+                    <div
+                      aria-hidden="true"
+                      className="hidden sm:block mr-4 text-sm leading-6 text-white"
+                    >
+                      <p className="text-sm font-medium font-semibold text-right">
+                        Adekunle Adebona
+                      </p>
+                      <p className="text-xs">
+                        Adekunle.adebona@creditwaveng.com
+                      </p>
+                    </div>
 
                     <img
                       alt="Profile"
@@ -485,28 +489,34 @@ export default function LoanTopup() {
             <div>
               <LoanDetailsTab details={loanData[activeTab]} />
             </div>
-
-            
           </div>
           {/* Decline Loan and Complete Review Buttons */}
-<div className="mt-5 mr-0 sm:mr-10 flex flex-col sm:flex-row justify-end mb-10 p-1 space-y-3 sm:space-y-0 sm:space-x-3">
-  <button
-    onClick={handleDeclineLoan}
-    className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 outline outline-1 outline-offset-0 font-semibold border border-[#FF0000] bg-[#Ffffff] text-[#FF0000] rounded-md"
-  >
-    Decline Loan
-  </button>
-  <div>
-    <button className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 bg-[#00C795] text-white rounded-md" onClick={() => setIsUploadModalOpen(true)}>Complete Review</button>
-    <UploadModal
-      isOpen={isUploadModalOpen}
-      onClose={() => setIsUploadModalOpen(false)}
-    />
-  </div>
-</div>
-{/* Render the modals conditionally */}
-<DeclineModal isOpen={isDeclineModalOpen} closeModal={handleCloseDeclineModal} />
-      {/* <UploadModal isOpen={isCompleteReviewModalOpen} closeModal={handleCloseCompleteReviewModal} /> */}
+          <div className="mt-5 mr-0 sm:mr-10 flex flex-col sm:flex-row justify-end mb-10 p-1 space-y-3 sm:space-y-0 sm:space-x-3">
+            <button
+              onClick={handleDeclineLoan}
+              className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 outline outline-1 outline-offset-0 font-semibold border border-[#FF0000] bg-[#Ffffff] text-[#FF0000] rounded-md"
+            >
+              Decline Loan
+            </button>
+            <div>
+              <button
+                className="w-full sm:w-auto px-3 py-2 sm:px-4 sm:py-2 bg-[#00C795] text-white rounded-md"
+                onClick={() => setIsUploadModalOpen(true)}
+              >
+                Complete Review
+              </button>
+              <UploadModal
+                isOpen={isUploadModalOpen}
+                onClose={() => setIsUploadModalOpen(false)}
+              />
+            </div>
+          </div>
+          {/* Render the modals conditionally */}
+          <DeclineModal
+            isOpen={isDeclineModalOpen}
+            closeModal={handleCloseDeclineModal}
+          />
+          {/* <UploadModal isOpen={isCompleteReviewModalOpen} closeModal={handleCloseCompleteReviewModal} /> */}
 
           {/* Help Widget Ends */}
         </div>

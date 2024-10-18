@@ -238,14 +238,16 @@ export default function Decline() {
                             >
                               <img
                                 src={item.icon}
-                                alt={item.name} // Optional: For accessibility
-                                className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                                alt={item.name}
+                                className="h-6 w-6 shrink-0"
                               />
-                              {item.name}
+                              <span className="flex-1">{item.name}</span>{" "}
+                              {/* Pushes icon slightly right */}
                               {item.hasDropdown && (
                                 <button
                                   type="button"
                                   onClick={() => toggleDropdown(item.name)}
+                                  className="ml-4 flex items-center" // Adds space between title and icon
                                 >
                                   {openDropdown === item.name ? (
                                     <ChevronUpIcon className="w-5 h-5" />
@@ -255,7 +257,7 @@ export default function Decline() {
                                 </button>
                               )}
                             </Link>
-                            {/* Render dropdown if it's open */}
+
                             {item.hasDropdown && openDropdown === item.name && (
                               <ul className="pl-8 mt-2 space-y-1">
                                 {item.children.map((subItem) => (
@@ -305,14 +307,16 @@ export default function Decline() {
                         >
                           <img
                             src={item.icon}
-                            alt={item.name} // Optional: For accessibility
-                            className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                            alt={item.name}
+                            className="h-6 w-6 shrink-0"
                           />
-                          {item.name}
+                          <span className="flex-1">{item.name}</span>{" "}
+                          {/* Pushes icon slightly right */}
                           {item.hasDropdown && (
                             <button
                               type="button"
                               onClick={() => toggleDropdown(item.name)}
+                              className="ml-4 flex items-center" // Adds space between title and icon
                             >
                               {openDropdown === item.name ? (
                                 <ChevronUpIcon className="w-5 h-5" />
@@ -322,6 +326,7 @@ export default function Decline() {
                             </button>
                           )}
                         </Link>
+
                         {item.hasDropdown && openDropdown === item.name && (
                           <ul className="pl-8 mt-2 space-y-1">
                             {item.children.map((subItem) => (
@@ -359,7 +364,7 @@ export default function Decline() {
             {/* Right-aligned section */}
             <div className="ml-auto flex items-center gap-x-4 lg:gap-x-6">
               {/* Separator */}
-              
+
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
@@ -426,14 +431,13 @@ export default function Decline() {
           <div className="flex-grow p-4">
             {/* Sidebar and Top Bar Code */}
             <div className="w-full h-auto">
-            <div className="flex gap-2 items-center mt-10 ml-5">
+              <div className="flex gap-2 items-center mt-10 ml-5">
                 <p className="text-[#4A5D58]">Loan Application</p>
                 <ArrowRightIcon className="h-5 w-5 text-[#00C796] font-semibold" />
                 <Link to="#" className="text-[#4A5D58] hover:underline">
                   Decline
                 </Link>
               </div>
-              
 
               <div className="p-6 bg-white">
                 {/* Search and Filter Section */}

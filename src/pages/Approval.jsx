@@ -9,11 +9,12 @@ import {
   MenuItems,
   TransitionChild,
 } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { ChevronDownIcon, ChevronUpIcon, BellIcon } from "@heroicons/react/24/solid";
+  ChevronDownIcon,
+  ChevronUpIcon,
+  BellIcon,
+} from "@heroicons/react/24/solid";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.png";
 import loanIcon from "../assets/loanIcon.png";
@@ -33,7 +34,12 @@ import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: home, current: true },
-  { name: "Loan Application", href: "/loan-app/customer", icon: loanIcon, current: false, hasDropdown: true,
+  {
+    name: "Loan Application",
+    href: "/loan-app/customer",
+    icon: loanIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Customer", href: "/loan-app/customer" },
       { name: "Declined", href: "/loan-app/declined" },
@@ -42,36 +48,59 @@ const navigation = [
       { name: "Loan Restructuring", href: "/loan-app/restructure" },
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
-   },
-  { name: "Loan Underwriting", href: "/underwriter/review", icon: underwriterIcon, current: false, hasDropdown: true,
+  },
+  {
+    name: "Loan Underwriting",
+    href: "/underwriter/review",
+    icon: underwriterIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Review", href: "/underwriter/review" },
       { name: "Approval", href: "/underwriter/approval" },
       { name: "Disbursement", href: "/underwriter/disbursement" },
       { name: "Loan Re-assignment", href: "/underwriter/re-assignment" },
     ],
-   },
-  { name: "Collection", href: "#", icon: collectIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Collection",
+    href: "#",
+    icon: collectIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Repayment", href: "/collection/monthly" },
       { name: "Summary", href: "/collection/annual" },
       { name: "Report", href: "/collection/report" },
     ],
-   },
-  { name: "Staff", href: "#", icon: staffIcon, current: false, hasDropdown: true, 
-    children: [
-      { name: "Loan", href: "/staff/loan" },
-    ],
-   },
-  { name: "CRM", href: "#", icon: crmIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Staff",
+    href: "#",
+    icon: staffIcon,
+    current: false,
+    hasDropdown: true,
+    children: [{ name: "Loan", href: "/staff/loan" }],
+  },
+  {
+    name: "CRM",
+    href: "#",
+    icon: crmIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Add Client", href: "/crm/add-client" },
       { name: "Clients", href: "/crm/add-client" },
       { name: "Notification", href: "/crm/notification" },
       { name: "Customer Account Tier", href: "/crm/account-tier" },
     ],
-   },
-  { name: "Administration", href: "#", icon: adminIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Administration",
+    href: "#",
+    icon: adminIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Product", href: "/admin/product" },
       { name: "Underwriter", href: "/admin/underwriter" },
@@ -79,10 +108,20 @@ const navigation = [
       { name: "Loan Tenor", href: "/admin/loan-tenor" },
       { name: "Report", href: "/admin/report" },
     ],
-   },
+  },
   { name: "Debt Management", href: "debt", icon: debtIcon, current: false },
-  { name: "Bridge Loan", href: "bridge-loan", icon: bridgeIcon, current: false },
-  { name: "Customer Centric", href: "customer", icon: centricIcon, current: false },
+  {
+    name: "Bridge Loan",
+    href: "bridge-loan",
+    icon: bridgeIcon,
+    current: false,
+  },
+  {
+    name: "Customer Centric",
+    href: "customer",
+    icon: centricIcon,
+    current: false,
+  },
   { name: "General Setup", href: "setup", icon: setupIcon, current: false },
 
   // Example of dropdown with nested menu items (e.g., for "Report")
@@ -109,7 +148,6 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
 export default function Approval() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [date, setDate] = useState(new Date()); // State for interactive calendar
@@ -122,7 +160,7 @@ export default function Approval() {
   return (
     <>
       <div>
-      <Dialog
+        <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
           className="relative z-50 lg:hidden"
@@ -174,14 +212,16 @@ export default function Approval() {
                             >
                               <img
                                 src={item.icon}
-                                alt={item.name} // Optional: For accessibility
-                                className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                                alt={item.name}
+                                className="h-6 w-6 shrink-0"
                               />
-                              {item.name}
+                              <span className="flex-1">{item.name}</span>{" "}
+                              {/* Pushes icon slightly right */}
                               {item.hasDropdown && (
                                 <button
                                   type="button"
                                   onClick={() => toggleDropdown(item.name)}
+                                  className="ml-4 flex items-center" // Adds space between title and icon
                                 >
                                   {openDropdown === item.name ? (
                                     <ChevronUpIcon className="w-5 h-5" />
@@ -191,7 +231,7 @@ export default function Approval() {
                                 </button>
                               )}
                             </Link>
-                            {/* Render dropdown if it's open */}
+
                             {item.hasDropdown && openDropdown === item.name && (
                               <ul className="pl-8 mt-2 space-y-1">
                                 {item.children.map((subItem) => (
@@ -210,7 +250,6 @@ export default function Approval() {
                         ))}
                       </ul>
                     </li>
-          
                   </ul>
                 </nav>
               </div>
@@ -242,14 +281,16 @@ export default function Approval() {
                         >
                           <img
                             src={item.icon}
-                            alt={item.name} // Optional: For accessibility
-                            className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                            alt={item.name}
+                            className="h-6 w-6 shrink-0"
                           />
-                          {item.name}
+                          <span className="flex-1">{item.name}</span>{" "}
+                          {/* Pushes icon slightly right */}
                           {item.hasDropdown && (
                             <button
                               type="button"
                               onClick={() => toggleDropdown(item.name)}
+                              className="ml-4 flex items-center" // Adds space between title and icon
                             >
                               {openDropdown === item.name ? (
                                 <ChevronUpIcon className="w-5 h-5" />
@@ -259,6 +300,7 @@ export default function Approval() {
                             </button>
                           )}
                         </Link>
+
                         {item.hasDropdown && openDropdown === item.name && (
                           <ul className="pl-8 mt-2 space-y-1">
                             {item.children.map((subItem) => (
@@ -277,8 +319,6 @@ export default function Approval() {
                     ))}
                   </ul>
                 </li>
-
-
               </ul>
             </nav>
           </div>
@@ -364,8 +404,6 @@ export default function Approval() {
               </Menu>
             </div>
           </div>
-
-          
 
           {/* Help Widget Ends */}
         </div>

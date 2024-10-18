@@ -4,6 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import "./Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useProfile } from "../context/ProfileContext"; // Import the custom hook
 import {
   Dialog,
   DialogBackdrop,
@@ -150,6 +151,10 @@ function classNames(...classes) {
 const currentTime = new Date().toLocaleString();
 
 export default function Dashboard() {
+  
+  const { profilePhoto, handlePhotoUpload } = useProfile(); // Access global state and function
+
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -178,7 +183,6 @@ export default function Dashboard() {
     { name: "Settings", href: "#" },
     { name: "Log out", href: "/login" },
   ];
-
 
   return (
     <>
@@ -235,14 +239,16 @@ export default function Dashboard() {
                             >
                               <img
                                 src={item.icon}
-                                alt={item.name} // Optional: For accessibility
-                                className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                                alt={item.name}
+                                className="h-6 w-6 shrink-0"
                               />
-                              {item.name}
+                              <span className="flex-1">{item.name}</span>{" "}
+                              {/* Pushes icon slightly right */}
                               {item.hasDropdown && (
                                 <button
                                   type="button"
                                   onClick={() => toggleDropdown(item.name)}
+                                  className="ml-5 flex items-center" // Adds space between title and icon
                                 >
                                   {openDropdown === item.name ? (
                                     <ChevronUpIcon className="w-5 h-5" />
@@ -252,7 +258,7 @@ export default function Dashboard() {
                                 </button>
                               )}
                             </Link>
-                            {/* Render dropdown if it's open */}
+
                             {item.hasDropdown && openDropdown === item.name && (
                               <ul className="pl-8 mt-2 space-y-1">
                                 {item.children.map((subItem) => (
@@ -302,14 +308,16 @@ export default function Dashboard() {
                         >
                           <img
                             src={item.icon}
-                            alt={item.name} // Optional: For accessibility
-                            className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                            alt={item.name}
+                            className="h-6 w-6 shrink-0"
                           />
-                          {item.name}
+                          <span className="flex-1">{item.name}</span>{" "}
+                          {/* Pushes icon slightly right */}
                           {item.hasDropdown && (
                             <button
                               type="button"
                               onClick={() => toggleDropdown(item.name)}
+                              className="ml-4 flex items-center" // Adds space between title and icon
                             >
                               {openDropdown === item.name ? (
                                 <ChevronUpIcon className="w-5 h-5" />
@@ -319,6 +327,7 @@ export default function Dashboard() {
                             </button>
                           )}
                         </Link>
+
                         {item.hasDropdown && openDropdown === item.name && (
                           <ul className="pl-8 mt-2 space-y-1">
                             {item.children.map((subItem) => (
@@ -395,7 +404,7 @@ export default function Dashboard() {
 
                     <img
                       alt="Profile"
-                      src={profile}
+                      src={profilePhoto || profile}
                       className="h-8 w-8 rounded-full bg-gray-50"
                     />
                     {/* Toggle between ChevronUp and ChevronDown */}
@@ -454,7 +463,7 @@ export default function Dashboard() {
             <div className="hidden sm:flex flex-col items-center justify-center mt-10 z-10 mr-10 text-center bg-white p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
               <img
                 className="rounded-full mb-4 w-24 h-24 border-4 border-[#00C796] p-1"
-                src={profile}
+                src={profilePhoto || profile}
                 alt="user"
               />
               <h2 className="text-xl font-semibold text-[#384642]">
@@ -472,18 +481,18 @@ export default function Dashboard() {
           <div className="grid mb-auto grid-cols-3 gap-5 bg-[#F3F4F6]">
             {/* Application Card */}
             <div className="col-span-3 sm:col-span-2 text-[#384642] p-5 mt-5 ml-7 rounded-md bg-[#ffffff] h-auto mb-5 shadow-lg">
-            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow-md transition-transform transform hover:scale-105">
-    <h1 className="font-bold text-xl text-[#384642]">
-      Application
-    </h1>
-    {/* Link to SeeMorePage */}
-    <Link
-      to="/see-more"  // Link to the SeeMorePage route
-      className="text-[#00C796] font-semibold hover:underline"
-    >
-      See more
-    </Link>
-  </div>
+              <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow-md transition-transform transform hover:scale-105">
+                <h1 className="font-bold text-xl text-[#384642]">
+                  Application
+                </h1>
+                {/* Link to SeeMorePage */}
+                <Link
+                  to="/see-more" // Link to the SeeMorePage route
+                  className="text-[#00C796] font-semibold hover:underline"
+                >
+                  See more
+                </Link>
+              </div>
 
               {/* Inner Cards */}
               <div className="flex flex-col gap-5 mt-5 sm:flex-row">
@@ -549,7 +558,10 @@ export default function Dashboard() {
                 <p className="text-sm text-[#6b6b6b]">
                   Having trouble with the system? Reach out for assistance.
                 </p>
-                <Link to="/contact-support" className="mt-3 bg-[#00C796] text-white font-semibold py-2 px-4 rounded hover:bg-[#009a7a] transition-colors">
+                <Link
+                  to="/contact-support"
+                  className="mt-3 bg-[#00C796] text-white font-semibold py-2 px-4 rounded hover:bg-[#009a7a] transition-colors"
+                >
                   Contact Support
                 </Link>
               </div>

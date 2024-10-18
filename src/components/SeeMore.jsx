@@ -14,7 +14,11 @@ import {
   Cog6ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { ChevronDownIcon, ChevronUpIcon, BellIcon } from "@heroicons/react/24/solid";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  BellIcon,
+} from "@heroicons/react/24/solid";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.png";
 import pana from "../assets/pana.png";
@@ -39,7 +43,12 @@ import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: home, current: true },
-  { name: "Loan Application", href: "/loan-app/customer", icon: loanIcon, current: false, hasDropdown: true,
+  {
+    name: "Loan Application",
+    href: "/loan-app/customer",
+    icon: loanIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Customer", href: "/loan-app/customer" },
       { name: "Declined", href: "/loan-app/declined" },
@@ -48,36 +57,59 @@ const navigation = [
       { name: "Loan Restructuring", href: "/loan-app/restructure" },
       { name: "Loan Top-up", href: "/loan-app/top-up" },
     ],
-   },
-  { name: "Loan Underwriting", href: "/underwriter/review", icon: underwriterIcon, current: false, hasDropdown: true,
+  },
+  {
+    name: "Loan Underwriting",
+    href: "/underwriter/review",
+    icon: underwriterIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Review", href: "/underwriter/review" },
       { name: "Approval", href: "/underwriter/approval" },
       { name: "Disbursement", href: "/underwriter/disbursement" },
       { name: "Loan Re-assignment", href: "/underwriter/re-assignment" },
     ],
-   },
-  { name: "Collection", href: "#", icon: collectIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Collection",
+    href: "#",
+    icon: collectIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Repayment", href: "/collection/monthly" },
       { name: "Summary", href: "/collection/annual" },
       { name: "Report", href: "/collection/report" },
     ],
-   },
-  { name: "Staff", href: "#", icon: staffIcon, current: false, hasDropdown: true, 
-    children: [
-      { name: "Loan", href: "/staff/loan" },
-    ],
-   },
-  { name: "CRM", href: "#", icon: crmIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Staff",
+    href: "#",
+    icon: staffIcon,
+    current: false,
+    hasDropdown: true,
+    children: [{ name: "Loan", href: "/staff/loan" }],
+  },
+  {
+    name: "CRM",
+    href: "#",
+    icon: crmIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Add Client", href: "/crm/add-client" },
       { name: "Clients", href: "/crm/add-client" },
       { name: "Notification", href: "/crm/notification" },
       { name: "Customer Account Tier", href: "/crm/account-tier" },
     ],
-   },
-  { name: "Administration", href: "#", icon: adminIcon, current: false, hasDropdown: true, 
+  },
+  {
+    name: "Administration",
+    href: "#",
+    icon: adminIcon,
+    current: false,
+    hasDropdown: true,
     children: [
       { name: "Product", href: "/admin/product" },
       { name: "Underwriter", href: "/admin/underwriter" },
@@ -85,10 +117,20 @@ const navigation = [
       { name: "Loan Tenor", href: "/admin/loan-tenor" },
       { name: "Report", href: "/admin/report" },
     ],
-   },
+  },
   { name: "Debt Management", href: "debt", icon: debtIcon, current: false },
-  { name: "Bridge Loan", href: "bridge-loan", icon: bridgeIcon, current: false },
-  { name: "Customer Centric", href: "customer", icon: centricIcon, current: false },
+  {
+    name: "Bridge Loan",
+    href: "bridge-loan",
+    icon: bridgeIcon,
+    current: false,
+  },
+  {
+    name: "Customer Centric",
+    href: "customer",
+    icon: centricIcon,
+    current: false,
+  },
   { name: "General Setup", href: "setup", icon: setupIcon, current: false },
 
   // Example of dropdown with nested menu items (e.g., for "Report")
@@ -118,7 +160,7 @@ function classNames(...classes) {
 const currentTime = new Date().toLocaleString();
 
 export default function SeeMorePage() {
-    const [loanApplications, setLoanApplications] = useState([]);
+  const [loanApplications, setLoanApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -129,7 +171,6 @@ export default function SeeMorePage() {
     setOpenDropdown(openDropdown === name ? null : name); // Toggle dropdown
   };
 
-
   const handleDateChange = (newDate) => {
     setDate(newDate);
     console.log("Selected date:", newDate);
@@ -137,7 +178,7 @@ export default function SeeMorePage() {
 
   // Fetch loan application data from Mockaroo API
   useEffect(() => {
-    fetch('https://my.api.mockaroo.com/loan_data1.json?key=a4e044f0')
+    fetch("https://my.api.mockaroo.com/loan_data1.json?key=a4e044f0")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -149,26 +190,28 @@ export default function SeeMorePage() {
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching loan details:', error);
+        console.error("Error fetching loan details:", error);
         setError(error.message);
         setLoading(false);
       });
   }, []);
 
   if (loading) {
-    return <div className="flex justify-center items-center min-h-screen bg-gray-100">
-    <Spinner /> {/* The spinner component */}
-  </div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <Spinner /> {/* The spinner component */}
+      </div>
+    );
   }
 
   if (error) {
     return <div>Error: {error}</div>;
-  }  
+  }
 
   return (
     <>
       <div>
-      <Dialog
+        <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
           className="relative z-50 lg:hidden"
@@ -220,14 +263,16 @@ export default function SeeMorePage() {
                             >
                               <img
                                 src={item.icon}
-                                alt={item.name} // Optional: For accessibility
-                                className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                                alt={item.name}
+                                className="h-6 w-6 shrink-0"
                               />
-                              {item.name}
+                              <span className="flex-1">{item.name}</span>{" "}
+                              {/* Pushes icon slightly right */}
                               {item.hasDropdown && (
                                 <button
                                   type="button"
                                   onClick={() => toggleDropdown(item.name)}
+                                  className="ml-4 flex items-center" // Adds space between title and icon
                                 >
                                   {openDropdown === item.name ? (
                                     <ChevronUpIcon className="w-5 h-5" />
@@ -237,7 +282,7 @@ export default function SeeMorePage() {
                                 </button>
                               )}
                             </Link>
-                            {/* Render dropdown if it's open */}
+
                             {item.hasDropdown && openDropdown === item.name && (
                               <ul className="pl-8 mt-2 space-y-1">
                                 {item.children.map((subItem) => (
@@ -256,7 +301,6 @@ export default function SeeMorePage() {
                         ))}
                       </ul>
                     </li>
-          
                   </ul>
                 </nav>
               </div>
@@ -288,14 +332,16 @@ export default function SeeMorePage() {
                         >
                           <img
                             src={item.icon}
-                            alt={item.name} // Optional: For accessibility
-                            className="h-6 w-6 shrink-0" // Adjust the size of the icon if needed
+                            alt={item.name}
+                            className="h-6 w-6 shrink-0"
                           />
-                          {item.name}
+                          <span className="flex-1">{item.name}</span>{" "}
+                          {/* Pushes icon slightly right */}
                           {item.hasDropdown && (
                             <button
                               type="button"
                               onClick={() => toggleDropdown(item.name)}
+                              className="ml-4 flex items-center" // Adds space between title and icon
                             >
                               {openDropdown === item.name ? (
                                 <ChevronUpIcon className="w-5 h-5" />
@@ -305,6 +351,7 @@ export default function SeeMorePage() {
                             </button>
                           )}
                         </Link>
+
                         {item.hasDropdown && openDropdown === item.name && (
                           <ul className="pl-8 mt-2 space-y-1">
                             {item.children.map((subItem) => (
@@ -323,8 +370,6 @@ export default function SeeMorePage() {
                     ))}
                   </ul>
                 </li>
-
-
               </ul>
             </nav>
           </div>
@@ -412,28 +457,35 @@ export default function SeeMorePage() {
           </div>
 
           <div className="max-w-6xl mx-auto p-5">
-      <h3 className="text-2xl font-bold text-[#384642] mb-8">Loan Applications</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {loanApplications.map((loan) => (
-          <div key={loan.id} className="bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-[#384642] mb-2">{loan.loan_name}</h2>
-            <p className="text-gray-700 mb-4">Amount: {loan.amount}</p>
-            <p className="text-gray-700 mb-4">Status: {loan.status}</p>
-            <div className="flex justify-between items-center">
-              <Link
-                to="#"
-                className="text-[#00C796] font-semibold hover:underline"
-              >
-                View Details
-              </Link>
-              <button className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600">
-                Delete
-              </button>
+            <h3 className="text-2xl font-bold text-[#384642] mb-8">
+              Loan Applications
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {loanApplications.map((loan) => (
+                <div
+                  key={loan.id}
+                  className="bg-white shadow-lg rounded-lg p-6"
+                >
+                  <h2 className="text-xl font-semibold text-[#384642] mb-2">
+                    {loan.loan_name}
+                  </h2>
+                  <p className="text-gray-700 mb-4">Amount: {loan.amount}</p>
+                  <p className="text-gray-700 mb-4">Status: {loan.status}</p>
+                  <div className="flex justify-between items-center">
+                    <Link
+                      to="#"
+                      className="text-[#00C796] font-semibold hover:underline"
+                    >
+                      View Details
+                    </Link>
+                    <button className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
 
           {/* Help Widget Ends */}
         </div>
